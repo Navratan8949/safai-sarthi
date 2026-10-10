@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from "next/link";
 import {
   Instagram,
   Facebook,
@@ -12,38 +12,38 @@ import {
   Sparkles,
   CheckCircle2,
   ArrowUpRight,
-} from 'lucide-react';
-import { Logo } from './Logo';
-import { business } from '@/config/business';
-import { services } from '@/data/services';
+} from "lucide-react";
+import { Logo } from "./Logo";
+import { business } from "@/config/business";
+import { services } from "@/data/services";
 
 export function Footer() {
   const companyLinks = [
-    { label: 'Home', href: '/' },
-    { label: 'About Us', href: '/about' },
-    { label: 'Real Results & Reviews', href: '/reviews' },
-    { label: 'FAQs', href: '/faq' },
-    { label: 'Contact Us', href: '/contact' },
+    { label: "Home", href: "/" },
+    { label: "About Us", href: "/about" },
+    { label: "Real Results & Reviews", href: "/reviews" },
+    { label: "FAQs", href: "/faq" },
+    { label: "Contact Us", href: "/contact" },
   ];
 
   const businessLinks = [
-    { label: 'Corporate Cleaning', href: '/corporate-cleaning' },
-    { label: 'Request a Quote', href: '/corporate-enquiry' },
-    { label: 'Privacy Policy', href: '/privacy-policy' },
-    { label: 'Terms & Conditions', href: '/terms' },
-    { label: 'Cancellation Policy', href: '/cancellation-policy' },
-    { label: 'Refund Policy', href: '/refund-policy' },
+    { label: "Corporate Cleaning", href: "/corporate-cleaning" },
+    { label: "Request a Quote", href: "/corporate-enquiry" },
+    { label: "Privacy Policy", href: "/privacy-policy" },
+    { label: "Terms & Conditions", href: "/terms" },
+    { label: "Cancellation Policy", href: "/cancellation-policy" },
+    { label: "Refund Policy", href: "/refund-policy" },
   ];
 
   const popularAreas = [
-    'Vaishali Nagar',
-    'Mansarovar',
-    'Malviya Nagar',
-    'Jagatpura',
-    'C-Scheme',
-    'Raja Park',
-    'Vidhyadhar Nagar',
-    'Tonk Road',
+    "Vaishali Nagar",
+    "Mansarovar",
+    "Malviya Nagar",
+    "Jagatpura",
+    "C-Scheme",
+    "Raja Park",
+    "Vidhyadhar Nagar",
+    "Tonk Road",
   ];
 
   const topServices = services.slice(0, 6);
@@ -55,7 +55,7 @@ export function Footer() {
       <div className="absolute bottom-10 right-1/4 h-80 w-80 rounded-full bg-indigo-500/5 blur-3xl pointer-events-none" />
 
       {/* Top Value Proposition Strip */}
-      <div className="border-b border-slate-800/70 bg-slate-900/60 backdrop-blur-sm">
+      {/* <div className="border-b border-slate-800/70 bg-slate-900/60 backdrop-blur-sm">
         <div className="container-max py-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-semibold">
             <div className="flex items-center gap-2.5 text-slate-300">
@@ -99,31 +99,33 @@ export function Footer() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Main Footer Content */}
       <div className="container-max py-12 lg:py-16">
         {/* Responsive Grid: Mobile = 2 columns, Desktop = 12 columns */}
         <div className="grid grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
-          
           {/* Brand Info & Contacts (Mobile: spans full 2 columns, Desktop: 4 columns) */}
           <div className="col-span-2 lg:col-span-4 space-y-5">
             <Logo dark className="mb-2" />
             <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-sm font-normal">
-              Jaipur&apos;s trusted on-demand home &amp; corporate cleaning partner. 
-              Equipped with heavy-duty rotary machines, non-acidic descaling agents, and expert squad.
+              Jaipur&apos;s trusted on-demand home &amp; corporate cleaning
+              partner. Equipped with heavy-duty rotary machines, non-acidic
+              descaling agents, and expert squad.
             </p>
 
             {/* Quick Contact Chips */}
             <div className="space-y-2.5 pt-2">
               <a
-                href={`tel:${business.phone.replace(/\s+/g, '')}`}
+                href={`tel:${business.phone.replace(/\s+/g, "")}`}
                 className="flex items-center gap-3 text-xs sm:text-sm text-slate-300 hover:text-white transition-colors group"
               >
                 <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800 text-sky-400 group-hover:bg-sky-500 group-hover:text-white transition-all flex-shrink-0">
                   <Phone className="h-3.5 w-3.5" />
                 </div>
-                <span className="font-bold tracking-wide">{business.phone}</span>
+                <span className="font-bold tracking-wide">
+                  {business.phone}
+                </span>
               </a>
 
               <a
@@ -254,7 +256,10 @@ export function Footer() {
             </h4>
             <div className="flex flex-col space-y-2 text-xs text-slate-400">
               {popularAreas.map((area) => (
-                <span key={area} className="hover:text-white transition-colors cursor-default">
+                <span
+                  key={area}
+                  className="hover:text-white transition-colors cursor-default"
+                >
                   • {area}
                 </span>
               ))}
@@ -263,18 +268,18 @@ export function Footer() {
               </span>
             </div>
           </div>
-
         </div>
 
         {/* Bottom Credits & Copyright Bar */}
         <div className="mt-12 pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-2 gap-y-1 text-center sm:text-left">
             <span>
-              &copy; {new Date().getFullYear()} SafaiSaarthi. All rights reserved.
+              &copy; {new Date().getFullYear()} SafaiSaarthi. All rights
+              reserved.
             </span>
             <span className="hidden sm:inline text-slate-600">•</span>
             <span>
-              Designed by{' '}
+              Designed by{" "}
               <a
                 href="https://www.codepecharcha.in"
                 target="_blank"
