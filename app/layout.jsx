@@ -8,6 +8,8 @@ import { FloatingWhatsApp } from '@/components/WhatsAppButton';
 import { AppErrorBoundary } from '@/components/AppErrorBoundary';
 import { LocationPromptModal } from '@/components/LocationPromptModal';
 
+import { LocationNoticeToast } from '@/components/LocationNoticeToast';
+
 const manrope = Manrope({
   subsets: ['latin'],
   variable: '--font-manrope',
@@ -42,6 +44,7 @@ export default function RootLayout({ children }) {
               <Footer />
               <FloatingWhatsApp />
               <LocationPromptModal />
+              <LocationNoticeToast />
             </CartProvider>
           </LocationProvider>
         </AppErrorBoundary>
