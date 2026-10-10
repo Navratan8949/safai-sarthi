@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import Image from 'next/image';
-import { ArrowRight } from 'lucide-react';
-import { categories } from '@/data/categories';
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
+import { categories } from "@/data/categories";
 
 const iconMap = {
-  Utensils: 'Utensils',
-  ShowerHead: 'ShowerHead',
-  BedDouble: 'BedDouble',
-  Sofa: 'Sofa',
-  Home: 'Home',
-  Sparkles: 'Sparkles',
-  Sun: 'Sun',
+  Utensils: "Utensils",
+  ShowerHead: "ShowerHead",
+  BedDouble: "BedDouble",
+  Sofa: "Sofa",
+  Home: "Home",
+  Sparkles: "Sparkles",
+  Sun: "Sun",
 };
 
 export function CategoryGrid() {
@@ -23,8 +23,12 @@ export function CategoryGrid() {
           {categories.map((cat) => (
             <Link
               key={cat.id}
-              href={cat.id === 'other' ? '/services' : `/services?category=${encodeURIComponent(cat.name)}`}
-              className="group relative overflow-hidden rounded-3xl border border-sky-100/60 bg-white shadow-md shadow-sky-900/5 h-48 sm:h-60 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/20 hover:border-sky-300"
+              href={
+                cat.id === "other"
+                  ? "/services"
+                  : `/services?category=${encodeURIComponent(cat.name)}`
+              }
+              className="group relative overflow-hidden rounded-2xl border border-sky-100/60 bg-white shadow-md shadow-sky-900/5 h-48 sm:h-60 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/20 hover:border-sky-300"
             >
               <Image
                 src={cat.image}
@@ -35,7 +39,7 @@ export function CategoryGrid() {
               />
               {/* Luxury dark glass gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent transition-opacity duration-300 group-hover:via-slate-950/30" />
-              
+
               {/* Top pill badge */}
               <div className="absolute top-3 left-3">
                 <span className="inline-flex items-center gap-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 px-2.5 py-0.5 text-[10px] font-bold text-white shadow-xs">

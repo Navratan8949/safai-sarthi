@@ -1,22 +1,23 @@
-import { Hero } from '@/components/Hero';
-import { PincodeChecker } from '@/components/PincodeChecker';
-import { CategoryGrid } from '@/components/CategoryGrid';
-import { ServiceCard } from '@/components/ServiceCard';
-import { WhyChooseUs } from '@/components/WhyChooseUs';
-import { HowItWorks } from '@/components/HowItWorks';
-import { ServiceScopeSection } from '@/components/ServiceScopeSection';
-import { ResidentialCorporate } from '@/components/ResidentialCorporate';
-import { ReviewsSection } from '@/components/ReviewsSection';
-import { FAQSection } from '@/components/FAQAccordion';
-import { CTASection } from '@/components/CTASection';
-import { SectionHeading } from '@/components/SectionHeading';
-import { services } from '@/data/services';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { Hero } from "@/components/Hero";
+import { PincodeChecker } from "@/components/PincodeChecker";
+import { CategoryGrid } from "@/components/CategoryGrid";
+import { ServiceCard } from "@/components/ServiceCard";
+import { WhyChooseUs } from "@/components/WhyChooseUs";
+import { HowItWorks } from "@/components/HowItWorks";
+import { ServiceScopeSection } from "@/components/ServiceScopeSection";
+import { ResidentialCorporate } from "@/components/ResidentialCorporate";
+import { ReviewsSection } from "@/components/ReviewsSection";
+import { FAQSection } from "@/components/FAQAccordion";
+import { CTASection } from "@/components/CTASection";
+import { SectionHeading } from "@/components/SectionHeading";
+import { services } from "@/data/services";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 export const metadata = {
-  title: 'SafaiSaarthi | Professional Cleaning Services in Jaipur',
-  description: 'Professional cleaning services for homes and businesses across selected areas of Jaipur. Transparent pricing, clear scope, easy WhatsApp booking.',
+  title: "SafaiSaarthi | Professional Cleaning Services in Jaipur",
+  description:
+    "Professional cleaning services for homes and businesses across selected areas of Jaipur. Transparent pricing, clear scope, easy WhatsApp booking.",
 };
 
 export default function Home() {
@@ -26,7 +27,10 @@ export default function Home() {
     <>
       <Hero />
 
-      <section id="coverage-checker" className="py-8 lg:py-12 -mt-8 lg:-mt-12 relative z-10 scroll-mt-24">
+      <section
+        id="coverage-checker"
+        className="py-8 lg:py-12 -mt-8 lg:-mt-12 relative z-10 scroll-mt-24"
+      >
         <div className="container-max">
           <PincodeChecker />
         </div>

@@ -1,11 +1,18 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Clock, Plus, Check, Star, ShieldCheck, ArrowRight } from 'lucide-react';
-import { formatCurrency } from '@/utils/pricing';
-import { useCart } from '@/context/CartContext';
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import {
+  Clock,
+  Plus,
+  Check,
+  Star,
+  ShieldCheck,
+  ArrowRight,
+} from "lucide-react";
+import { formatCurrency } from "@/utils/pricing";
+import { useCart } from "@/context/CartContext";
 
 export function ServiceCard({ service }) {
   const { addToCart } = useCart();
@@ -13,7 +20,9 @@ export function ServiceCard({ service }) {
 
   // Compute realistic original strikethrough price and savings badge
   const originalPrice = Math.round((service.price * 1.3) / 50) * 50 - 1;
-  const discountPercent = Math.round(((originalPrice - service.price) / originalPrice) * 100);
+  const discountPercent = Math.round(
+    ((originalPrice - service.price) / originalPrice) * 100,
+  );
 
   const handleAddToCart = (e) => {
     e.preventDefault();
@@ -24,9 +33,12 @@ export function ServiceCard({ service }) {
   };
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-3xl bg-white border border-slate-200/90 shadow-md shadow-slate-900/5 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/12 hover:border-sky-300">
+    <div className="group relative flex flex-col overflow-hidden rounded-2xl bg-white border border-slate-200/90 shadow-md shadow-slate-900/5 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/12 hover:border-sky-300">
       {/* Top Image Showcase */}
-      <Link href={`/services/${service.slug}`} className="block relative h-56 sm:h-60 w-full overflow-hidden bg-slate-100">
+      <Link
+        href={`/services/${service.slug}`}
+        className="block relative h-56 sm:h-60 w-full overflow-hidden bg-slate-100"
+      >
         <Image
           src={service.image}
           alt={service.name}
@@ -38,7 +50,7 @@ export function ServiceCard({ service }) {
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-950/10 to-transparent pointer-events-none" />
 
         {/* Top-left Category Pill */}
-        <div className="absolute top-3.5 left-3.5">
+        <div className="absolute top-2 left-2">
           <span className="rounded-full bg-white/95 backdrop-blur-md px-3 py-1 text-xs font-black text-slate-800 shadow-sm border border-white/80">
             {service.category}
           </span>
@@ -49,7 +61,9 @@ export function ServiceCard({ service }) {
           <span className="inline-flex items-center gap-1 rounded-full bg-slate-950/75 backdrop-blur-md px-2.5 py-1 text-xs font-black text-amber-300 border border-white/20 shadow-sm">
             <Star className="h-3 w-3 fill-amber-300 text-amber-300" />
             <span>4.9</span>
-            <span className="text-[10px] text-slate-300 font-medium">(1.2k)</span>
+            <span className="text-[10px] text-slate-300 font-medium">
+              (1.2k)
+            </span>
           </span>
         </div>
 
@@ -63,24 +77,24 @@ export function ServiceCard({ service }) {
       </Link>
 
       {/* Card Body */}
-      <div className="flex flex-1 flex-col p-6 sm:p-7">
+      <div className="flex flex-1 flex-col p-6 sm:p-4">
         <Link href={`/services/${service.slug}`}>
           <h3 className="text-xl font-black text-slate-900 group-hover:text-sky-600 transition-colors line-clamp-1 tracking-tight">
             {service.name}
           </h3>
         </Link>
 
-        <p className="mt-2 text-xs sm:text-sm text-slate-500 leading-relaxed line-clamp-2 font-medium">
+        <p className="mt-1 text-xs sm:text-sm text-slate-500 leading-relaxed line-clamp-2 font-medium">
           {service.shortDescription}
         </p>
 
         {/* Feature Pills */}
-        <div className="mt-4 flex flex-wrap items-center gap-2">
-          <div className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700 border border-emerald-200/70">
+        <div className="mt-2 flex flex-wrap items-center gap-1">
+          <div className="inline-flex items-center gap-1 rounded-lg bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700 border border-emerald-200/70">
             <Check className="h-3.5 w-3.5 stroke-[2.5]" />
             <span>{service.included?.length || 6} Tasks Included</span>
           </div>
-          <div className="inline-flex items-center gap-1.5 rounded-lg bg-sky-50 px-2.5 py-1 text-xs font-bold text-sky-700 border border-sky-200/70">
+          <div className="inline-flex items-center gap-1 rounded-lg bg-sky-50 px-2.5 py-1 text-xs font-bold text-sky-700 border border-sky-200/70">
             <Clock className="h-3.5 w-3.5 text-sky-500" />
             <span>{service.duration}</span>
           </div>
@@ -88,9 +102,12 @@ export function ServiceCard({ service }) {
 
         {/* Quick 2-point checklist preview */}
         {service.included && service.included.length > 0 && (
-          <div className="mt-4 space-y-1.5 pt-3.5 border-t border-slate-100">
+          <div className="mt-2 space-y-1.5 pt-3.5 pb-4 border-t border-slate-100">
             {service.included.slice(0, 2).map((item, idx) => (
-              <div key={idx} className="flex items-center gap-2 text-xs font-medium text-slate-600 truncate">
+              <div
+                key={idx}
+                className="flex items-center gap-1.5 text-xs font-medium text-slate-600 truncate"
+              >
                 <div className="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 flex-shrink-0">
                   <Check className="h-2.5 w-2.5 stroke-[3]" />
                 </div>
@@ -101,7 +118,7 @@ export function ServiceCard({ service }) {
         )}
 
         {/* Bottom Pricing & Actions Bar */}
-        <div className="mt-auto pt-5 border-t border-slate-100 flex items-center justify-between gap-3">
+        <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
           {/* Price Column */}
           <div>
             <div className="flex items-center gap-1.5">
@@ -131,8 +148,8 @@ export function ServiceCard({ service }) {
               onClick={handleAddToCart}
               className={`inline-flex items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-xs font-bold transition-all active:scale-95 shadow-sm ${
                 isAdded
-                  ? 'bg-emerald-600 text-white shadow-emerald-600/30 ring-2 ring-emerald-500/40'
-                  : 'bg-gradient-to-r from-sky-500 to-sky-600 text-white shadow-sky-500/25 hover:from-sky-600 hover:to-sky-700 hover:shadow-md hover:shadow-sky-500/35 hover:-translate-y-0.5'
+                  ? "bg-emerald-600 text-white shadow-emerald-600/30 ring-2 ring-emerald-500/40"
+                  : "bg-gradient-to-r from-sky-500 to-sky-600 text-white shadow-sky-500/25 hover:from-sky-600 hover:to-sky-700 hover:shadow-md hover:shadow-sky-500/35 hover:-translate-y-0.5"
               }`}
             >
               {isAdded ? (
