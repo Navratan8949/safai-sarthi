@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-manrope: 'Manrope', system-ui, sans-serif;
+  }
+
+  * {
+    border-color: #DFEAF2;
+  }
+
+  body {
+    background-color: #FFFFFF;
+    color: #243746;
+    font-family: var(--font-manrope);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #102A43;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+}
+
+@layer components {
+  .container-px {
+    @apply px-5 sm:px-6 lg:px-8;
+  }
+  .container-max {
+    @apply mx-auto max-w-7xl container-px;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-sky-500 px-6 py-3 text-sm font-bold text-white transition-all hover:bg-sky-600 hover:shadow-glow active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-white px-6 py-3 text-sm font-bold text-navy transition-all hover:border-sky-300 hover:bg-sky-50 active:scale-[0.98];
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-ink-light transition-colors hover:text-sky-500 hover:bg-sky-50;
+  }
+  .card-base {
+    @apply rounded-2xl border border-border bg-white shadow-soft transition-all duration-300;
+  }
+  .card-hover {
+    @apply hover:shadow-lift hover:-translate-y-1;
+  }
+  .input-base {
+    @apply w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink placeholder:text-ink-light/60 transition-colors focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-200;
+  }
+  .badge-base {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .shimmer-bg {
+    background: linear-gradient(90deg, #f0f4f8 0%, #e6edf4 50%, #f0f4f8 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
