@@ -17,11 +17,10 @@ export const business = {
 
 export const navLinks = [
   { label: 'Home', href: '/' },
-  { label: 'Home Cleaning', href: '/services?category=Full+House' },
+  { label: 'About', href: '/about' },
   { label: 'Services', href: '/services' },
   { label: 'Corporate', href: '/corporate-cleaning' },
   { label: 'How It Works', href: '/#how-it-works' },
-  { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ];
 

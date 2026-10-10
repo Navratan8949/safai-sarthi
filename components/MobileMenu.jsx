@@ -7,10 +7,10 @@ import { Logo } from './Logo';
 export function MobileMenu({ open, onClose }) {
   const links = [
     { label: 'Home', href: '/', icon: Home },
+    { label: 'About', href: '/about', icon: Info },
     { label: 'Services', href: '/services', icon: Sparkles },
     { label: 'Corporate Cleaning', href: '/corporate-cleaning', icon: Building },
     { label: 'How It Works', href: '/#how-it-works', icon: MapPin },
-    { label: 'About', href: '/about', icon: Info },
     { label: 'Contact', href: '/contact', icon: Phone },
   ];
 
