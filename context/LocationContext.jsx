@@ -18,7 +18,11 @@ export function LocationProvider({ children }) {
 
   // Helper to enrich location result with serviceability in Jaipur
   const enrichLocation = useCallback((res) => {
-    const isServiceable = Boolean(res.isJaipur && serviceablePincodes.includes(res.pincode));
+    const isServiceable = Boolean(
+      res.isJaipur ||
+      (res.pincode && serviceablePincodes.includes(res.pincode)) ||
+      (typeof res.distanceKm === 'number' && res.distanceKm <= 35)
+    );
     const enriched = {
       ...res,
       isServiceable,
@@ -40,7 +44,7 @@ export function LocationProvider({ children }) {
     });
   }, []);
 
-  // Request location from browser (called on user click)
+  // Request location from browser (called on user click or on arrival)
   const requestLocation = useCallback(async (isUserInitiated = false) => {
     setIsDetecting(true);
     setErrorMsg(null);
@@ -105,21 +109,20 @@ export function LocationProvider({ children }) {
       return;
     }
 
-    // Only silently check if permission was ALREADY granted in this browser
-    // NEVER forcefully prompt on reload unless user initiates by clicking
-    if (typeof window !== 'undefined' && navigator.permissions && navigator.geolocation) {
-      try {
-        navigator.permissions.query({ name: 'geolocation' }).then((permission) => {
-          if (permission.state === 'granted') {
-            // Silently fetch location only because user already granted permission
-            requestLocation(false);
-          } else {
-            setPermissionStatus(permission.state);
-          }
-        }).catch(() => {});
-      } catch {
-        // Fallback
-      }
+    const isDismissed =
+      typeof window !== 'undefined' &&
+      sessionStorage.getItem('safaisarthi_location_dismissed');
+
+    if (!isDismissed) {
+      // 1. Immediately trigger native browser location permission request
+      requestLocation(false);
+
+      // 2. Also show the friendly prompt modal after 500ms so the user sees the explanation and quick action
+      const timer = setTimeout(() => {
+        setShowPromptModal(true);
+      }, 500);
+
+      return () => clearTimeout(timer);
     }
   }, [enrichLocation, requestLocation]);
 

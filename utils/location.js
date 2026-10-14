@@ -56,7 +56,7 @@ export function findClosestJaipurLocality(lat, lng) {
   };
 }
 
-// Request browser geolocation and resolve nearest area
+// Request browser geolocation with resilient two-stage strategy (fast network first, then high accuracy fallback)
 export async function detectBrowserLocation() {
   if (typeof window === 'undefined' || !navigator.geolocation) {
     return {
@@ -65,81 +65,106 @@ export async function detectBrowserLocation() {
     };
   }
 
-  return new Promise((resolve) => {
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const { latitude, longitude } = position.coords;
-        const closest = findClosestJaipurLocality(latitude, longitude);
-
-        let reverseAddress = null;
-        let detectedPincode = closest.pincode;
-        let detectedAreaName = closest.name;
-
-        // Try free reverse geocoding via OpenStreetMap with short timeout
-        try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 2500);
-
-          const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`,
+  // Two-stage position fetcher to prevent timeouts on mobile indoors
+  const getPosition = () => {
+    return new Promise((resolve, reject) => {
+      // Step 1: Fast network / cellular / Wi-Fi triangulation (returns in < 500ms, works indoors)
+      navigator.geolocation.getCurrentPosition(
+        resolve,
+        (err) => {
+          // If permission was denied by user, fail immediately without re-prompting
+          if (err && err.code === err.PERMISSION_DENIED) {
+            reject(err);
+            return;
+          }
+          // Step 2: Fallback to high accuracy with generous 15s timeout
+          navigator.geolocation.getCurrentPosition(
+            resolve,
+            reject,
             {
-              signal: controller.signal,
-              headers: { 'Accept-Language': 'en' },
+              enableHighAccuracy: true,
+              timeout: 15000,
+              maximumAge: 300000, // Accept cached position up to 5 mins
             }
           );
-          clearTimeout(timeoutId);
-
-          if (response.ok) {
-            const data = await response.json();
-            reverseAddress = data.display_name;
-            const addr = data.address || {};
-            if (addr.postcode && /^\d{6}$/.test(addr.postcode)) {
-              detectedPincode = addr.postcode;
-            }
-            if (addr.suburb || addr.neighbourhood || addr.residential) {
-              detectedAreaName = addr.suburb || addr.neighbourhood || addr.residential;
-            }
-          }
-        } catch {
-          // Fallback to local coordinate matching which always works
+        },
+        {
+          enableHighAccuracy: false,
+          timeout: 8000,
+          maximumAge: 300000, // Accept cached position up to 5 mins
         }
+      );
+    });
+  };
 
-        resolve({
-          success: true,
-          coords: { lat: latitude, lng: longitude },
-          area: detectedAreaName,
-          pincode: detectedPincode,
-          closestLocality: closest.name,
-          distanceKm: closest.distanceKm,
-          isJaipur: closest.isJaipurNearby,
-          fullAddress: reverseAddress,
-          mapsUrl: `https://maps.google.com/?q=${latitude},${longitude}`,
-        });
-      },
-      (error) => {
-        let errorMsg = 'Failed to detect location.';
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            errorMsg = 'Location permission denied. Please enable location in your browser settings or choose your area manually.';
-            break;
-          case error.POSITION_UNAVAILABLE:
-            errorMsg = 'Location information is unavailable. Please check your GPS.';
-            break;
-          case error.TIMEOUT:
-            errorMsg = 'Location request timed out. Please try again.';
-            break;
+  try {
+    const position = await getPosition();
+    const { latitude, longitude } = position.coords;
+    const closest = findClosestJaipurLocality(latitude, longitude);
+
+    let detectedPincode = closest.pincode;
+    let detectedAreaName = closest.name;
+    let reverseAddress = null;
+
+    // Optional quick reverse geocoding via OpenStreetMap with strict 1.8s timeout
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 1800);
+
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`,
+        {
+          signal: controller.signal,
+          headers: { 'Accept-Language': 'en' },
         }
-        resolve({
-          success: false,
-          error: errorMsg,
-          code: error.code,
-        });
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 60000,
+      );
+      clearTimeout(timeoutId);
+
+      if (response.ok) {
+        const data = await response.json();
+        reverseAddress = data.display_name;
+        const addr = data.address || {};
+        if (addr.postcode && /^\d{6}$/.test(addr.postcode)) {
+          detectedPincode = addr.postcode;
+        }
+        if (addr.suburb || addr.neighbourhood || addr.residential) {
+          detectedAreaName = addr.suburb || addr.neighbourhood || addr.residential;
+        }
       }
-    );
-  });
+    } catch {
+      // Local coordinate matching already provides instant Jaipur area & pincode!
+    }
+
+    return {
+      success: true,
+      coords: { lat: latitude, lng: longitude },
+      area: detectedAreaName,
+      pincode: detectedPincode,
+      closestLocality: closest.name,
+      distanceKm: closest.distanceKm,
+      isJaipur: closest.isJaipurNearby,
+      fullAddress: reverseAddress,
+      mapsUrl: `https://maps.google.com/?q=${latitude},${longitude}`,
+    };
+  } catch (error) {
+    let errorMsg = 'Failed to detect location.';
+    switch (error?.code) {
+      case 1:
+        errorMsg = 'Location permission was denied. Please pick your area below.';
+        break;
+      case 2:
+        errorMsg = 'Location unavailable. Please select your area below.';
+        break;
+      case 3:
+        errorMsg = 'Location request took too long. Please pick your area below.';
+        break;
+      default:
+        errorMsg = error?.message || 'Could not fetch your location.';
+    }
+    return {
+      success: false,
+      error: errorMsg,
+      code: error?.code || 0,
+    };
+  }
 }

@@ -5,10 +5,10 @@ import Image from "next/image";
 
 export function Logo({ className = "", dark = false, size = "default" }) {
   const sizeClasses = {
-    sm: "h-10 sm:h-11 aspect-[3/1]",
-    default: "h-12 sm:h-14 lg:h-16 aspect-[3/1]",
-    lg: "h-14 sm:h-16 lg:h-20 aspect-[3/1]",
-  }[size] || "h-12 sm:h-14 lg:h-16 aspect-[3/1]";
+    sm: "h-11 sm:h-12 aspect-[3/1]",
+    default: "h-14 sm:h-15 lg:h-16 aspect-[3/1]",
+    lg: "h-16 sm:h-18 lg:h-20 aspect-[3/1]",
+  }[size] || "h-14 sm:h-15 lg:h-16 aspect-[3/1]";
 
   return (
     <Link
@@ -25,7 +25,7 @@ export function Logo({ className = "", dark = false, size = "default" }) {
           src="/images/safaisaarthi-jaipur-logo.png"
           alt="SafaiSaarthi Jaipur"
           fill
-          sizes="(max-width: 640px) 160px, (max-width: 1024px) 190px, 220px"
+          sizes="(max-width: 640px) 180px, (max-width: 1024px) 200px, 220px"
           className="object-contain"
           priority
         />

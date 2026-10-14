@@ -37,15 +37,16 @@ export function Header() {
   return (
     <>
       {/* Top Utility & Trust Bar */}
-      <div className="bg-slate-900 text-slate-200 text-xs py-2 px-4 border-b border-white/10 relative z-50">
-        <div className="container-max flex items-center justify-between">
-          <div className="flex items-center gap-3 sm:gap-6">
+      <div className="bg-slate-900 text-slate-200 text-xs py-1.5 sm:py-2 px-3 sm:px-4 border-b border-white/10 relative z-50">
+        <div className="container-max flex items-center justify-between gap-2">
+          {/* Left: Location Detector */}
+          <div className="flex items-center gap-3 sm:gap-6 min-w-0">
             <button
               onClick={() => detectLocation()}
               disabled={isDetectingLocation}
               type="button"
               title="Click to detect your current location in Jaipur"
-              className={`flex items-center gap-1.5 font-semibold transition-colors cursor-pointer group ${
+              className={`flex items-center gap-1.5 font-semibold transition-colors cursor-pointer group min-w-0 ${
                 userLocation?.isServiceable
                   ? "text-emerald-400 hover:text-emerald-300"
                   : userLocation && !userLocation.isServiceable
@@ -54,43 +55,75 @@ export function Header() {
               }`}
             >
               <MapPin className="h-3.5 w-3.5 group-hover:scale-110 transition-transform flex-shrink-0" />
-              <span>
-                {isDetectingLocation
-                  ? "Detecting GPS..."
-                  : userLocation?.area
-                    ? `${userLocation.area} ${userLocation.isServiceable ? "• Available ✓" : "• Outside Jaipur Area"}`
-                    : "Jaipur, Rajasthan • Tap to Check Area"}
+              <span className="truncate text-[11px] sm:text-xs">
+                {isDetectingLocation ? (
+                  "Detecting GPS..."
+                ) : userLocation?.area ? (
+                  <>
+                    <span className="font-bold">{userLocation.area}</span>{" "}
+                    <span className="hidden sm:inline">
+                      {userLocation.isServiceable
+                        ? "• Available ✓"
+                        : "• Outside Jaipur Area"}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span className="sm:hidden">Jaipur • Check Area</span>
+                    <span className="hidden sm:inline">
+                      Jaipur, Rajasthan • Tap to Check Area
+                    </span>
+                  </>
+                )}
               </span>
             </button>
-            <div className="hidden sm:flex items-center gap-1.5 text-emerald-400 font-medium">
+
+            <div className="hidden sm:flex items-center gap-1.5 text-emerald-400 font-medium whitespace-nowrap">
               <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
               <span>Verified In-House Staff</span>
             </div>
-            <div className="hidden md:flex items-center gap-1.5 text-slate-300">
+            <div className="hidden md:flex items-center gap-1.5 text-slate-300 whitespace-nowrap">
               <ShieldCheck className="h-3.5 w-3.5 text-sky-400" />
               <span>Transparent Pricing • No Hidden Charges</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 sm:gap-4 text-slate-300">
+          {/* Right: Direct Phone & WhatsApp Actions */}
+          <div className="flex items-center gap-2 sm:gap-4 text-slate-300 shrink-0">
+            {/* Desktop Full Phone */}
             <a
               href={`tel:${business.phone.replace(/\s+/g, "")}`}
-              className="inline-flex items-center gap-1.5 font-bold text-white hover:text-sky-300 transition-colors"
+              className="hidden sm:inline-flex items-center gap-1.5 font-bold text-white hover:text-sky-300 transition-colors whitespace-nowrap"
             >
               <Phone className="h-3.5 w-3.5 text-sky-400" />
               <span>{business.phone}</span>
             </a>
+
+            {/* Mobile Call Icon Button */}
+            <a
+              href={`tel:${business.phone.replace(/\s+/g, "")}`}
+              className="sm:hidden flex h-7 w-7 items-center justify-center rounded-full bg-slate-800 text-sky-400 hover:text-white transition-colors border border-slate-700/80 shadow-xs"
+              title={`Call ${business.phone}`}
+              aria-label="Call SafaiSaarthi"
+            >
+              <Phone className="h-3.5 w-3.5" />
+            </a>
+
             <span className="hidden lg:inline text-slate-400 font-medium">
               • {business.hours}
             </span>
+
+            {/* WhatsApp Booking Action */}
             <a
               href={`https://wa.me/${business.whatsappNumber}?text=Hi%20SafaiSaarthi,%20I%20want%20to%20book%20a%20cleaning%20service`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-3 py-1 text-emerald-300 font-bold hover:bg-emerald-500/30 transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-2.5 py-1 sm:px-3 sm:py-1 text-emerald-300 font-bold hover:bg-emerald-500/30 transition-colors whitespace-nowrap text-[11px] sm:text-xs border border-emerald-500/30"
             >
               <MessageCircle className="h-3.5 w-3.5" />
-              <span>WhatsApp Booking</span>
+              <span>
+                <span className="hidden sm:inline">WhatsApp </span>Booking
+              </span>
             </a>
           </div>
         </div>
