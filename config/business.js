@@ -8,11 +8,6 @@ export const business = {
   email: 'care@safaisaarthi.com',
   hours: 'Mon – Sun: 8:00 AM – 8:00 PM',
   serviceArea: 'Selected Areas of Jaipur',
-  social: {
-    instagram: '#',
-    facebook: '#',
-    linkedin: '#',
-  },
 };
 
 export const navLinks = [

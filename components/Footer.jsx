@@ -1,8 +1,5 @@
 import Link from "next/link";
 import {
-  Instagram,
-  Facebook,
-  Linkedin,
   MapPin,
   Phone,
   Mail,
@@ -146,41 +143,25 @@ export function Footer() {
               </div>
             </div>
 
-            {/* Social Buttons & WhatsApp Action */}
-            <div className="flex items-center gap-3 pt-2">
+            {/* Direct Support & WhatsApp Booking Action */}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
                 href={`https://wa.me/${business.whatsappNumber}?text=Hi%20SafaiSaarthi,%20I%20want%20to%20book%20a%20cleaning%20service`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 px-3.5 py-1.5 text-xs font-bold text-emerald-300 hover:bg-emerald-500 hover:text-white transition-all cursor-pointer"
+                className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 text-xs font-bold shadow-md shadow-emerald-500/20 transition-all cursor-pointer"
               >
-                <MessageCircle className="h-3.5 w-3.5" />
-                <span>WhatsApp Booking</span>
+                <MessageCircle className="h-4 w-4" />
+                <span>Book on WhatsApp</span>
               </a>
 
-              <div className="flex gap-2">
-                <a
-                  href={business.social.instagram}
-                  className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-800 text-slate-300 hover:bg-sky-500 hover:text-white transition-colors"
-                  aria-label="Instagram"
-                >
-                  <Instagram className="h-4 w-4" />
-                </a>
-                <a
-                  href={business.social.facebook}
-                  className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-800 text-slate-300 hover:bg-sky-500 hover:text-white transition-colors"
-                  aria-label="Facebook"
-                >
-                  <Facebook className="h-4 w-4" />
-                </a>
-                <a
-                  href={business.social.linkedin}
-                  className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-800 text-slate-300 hover:bg-sky-500 hover:text-white transition-colors"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin className="h-4 w-4" />
-                </a>
-              </div>
+              <a
+                href={`tel:${business.phone.replace(/\s+/g, "")}`}
+                className="inline-flex items-center gap-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700/80 px-3.5 py-2 text-xs font-bold transition-all"
+              >
+                <Phone className="h-3.5 w-3.5 text-sky-400" />
+                <span>Direct Call</span>
+              </a>
             </div>
           </div>
 

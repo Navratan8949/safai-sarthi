@@ -13,19 +13,19 @@ export function CTASection() {
 
           <div className="relative text-center max-w-2xl mx-auto flex flex-col items-center">
             
-            {/* Mascot Avatar Pill */}
-            <div className="flex items-center gap-3 rounded-full bg-white/10 px-4 py-2 backdrop-blur-md border border-white/20 mb-6 shadow-sm">
-              <div className="relative h-8 w-8 rounded-full overflow-hidden flex-shrink-0 bg-white">
+            {/* Brand Trust Pill */}
+            <div className="inline-flex items-center gap-3 rounded-full bg-white/10 px-4 py-2 backdrop-blur-md border border-white/20 mb-6 shadow-sm">
+              <div className="relative h-6 w-20 flex-shrink-0 bg-white/95 rounded-lg px-1.5 py-0.5 shadow-2xs">
                 <Image
-                  src="/images/logo.png"
-                  alt="SafaiSaarthi Mascot"
+                  src="/images/safaisaarthi-jaipur-logo.png"
+                  alt="SafaiSaarthi Jaipur"
                   fill
-                  sizes="32px"
-                  className="object-contain"
+                  sizes="80px"
+                  className="object-contain p-0.5"
                 />
               </div>
               <span className="text-xs font-bold text-sky-200">
-                SafaiSaarthi Express Squad Jaipur
+                Express Squad Jaipur
               </span>
               <span className="flex items-center gap-0.5 text-amber-400 font-extrabold text-xs">
                 <Star className="h-3 w-3 fill-amber-400" /> 4.9/5

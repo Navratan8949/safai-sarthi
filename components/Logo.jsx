@@ -3,35 +3,33 @@
 import Link from "next/link";
 import Image from "next/image";
 
-export function Logo({ className = "", dark = false, hideText = false }) {
+export function Logo({ className = "", dark = false, size = "default" }) {
+  const sizeClasses = {
+    sm: "h-10 sm:h-11 aspect-[3/1]",
+    default: "h-12 sm:h-14 lg:h-16 aspect-[3/1]",
+    lg: "h-14 sm:h-16 lg:h-20 aspect-[3/1]",
+  }[size] || "h-12 sm:h-14 lg:h-16 aspect-[3/1]";
+
   return (
-    <Link href="/" className={`group flex items-center gap-3 ${className}`}>
-      {/* Transparent 3D Mascot Icon */}
-      <div className="relative h-12 w-12 sm:h-14 sm:w-14 flex-shrink-0 transition-transform duration-300">
+    <Link
+      href="/"
+      className={`group inline-flex items-center transition-all ${
+        dark
+          ? "bg-white/95 hover:bg-white px-3.5 py-2 rounded-2xl shadow-sm border border-white/20"
+          : "hover:opacity-95"
+      } ${className}`}
+      aria-label="SafaiSaarthi Jaipur Home"
+    >
+      <div className={`relative ${sizeClasses} flex-shrink-0`}>
         <Image
-          src="/images/logo.png"
-          alt="SafaiSaarthi Logo"
+          src="/images/safaisaarthi-jaipur-logo.png"
+          alt="SafaiSaarthi Jaipur"
           fill
-          sizes="60px"
-          className="object-contain drop-shadow-sm"
+          sizes="(max-width: 640px) 160px, (max-width: 1024px) 190px, 220px"
+          className="object-contain"
           priority
         />
       </div>
-
-      {!hideText && (
-        <div className="flex flex-col leading-none">
-          <span
-            className={`text-xl sm:text-2xl font-black tracking-tight ${dark ? "text-white" : "text-navy"}`}
-          >
-            Safai<span className="text-sky-500">Saarthi</span>
-          </span>
-          <span
-            className={`text-[10px] font-bold tracking-widest uppercase mt-0.5 ${dark ? "text-sky-300" : "text-sky-600"}`}
-          >
-            Jaipur
-          </span>
-        </div>
-      )}
     </Link>
   );
 }
