@@ -1,29 +1,33 @@
-import { Sparkles } from 'lucide-react';
-import { SectionHeading } from '@/components/SectionHeading';
+import { ReviewsSection } from "@/components/ReviewsSection";
+import { CTASection } from "@/components/CTASection";
 
 export const metadata = {
-  title: 'Reviews | SafaiSaarthi',
-  description: 'Read customer reviews and see cleaning results from SafaiSaarthi.',
+  title: "Customer Reviews & Results | SafaiSaarthi Jaipur",
+  description:
+    "Read genuine reviews and see before-and-after cleaning transformations from homeowners across Jaipur.",
 };
 
 export default function ReviewsPage() {
   return (
-    <div className="py-16 lg:py-24">
-      <div className="container-max">
-        <SectionHeading center eyebrow="Customer Stories" title="Reviews & Results" description="Real experiences from our customers across Jaipur." />
-
-        <div className="mt-12 max-w-lg mx-auto text-center">
-          <div className="card-base p-10">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-sky-100 mx-auto mb-5">
-              <Sparkles className="h-8 w-8 text-sky-500" />
-            </div>
-            <h3 className="text-lg font-bold text-navy">Customer stories are coming soon.</h3>
-            <p className="mt-2 text-sm text-ink-light leading-relaxed">
-              We are collecting reviews from our customers. Check back soon to read about their experiences with SafaiSaarthi.
-            </p>
-          </div>
+    <>
+      <div className="bg-gradient-to-b from-sky-50/70 via-white to-slate-50/40 py-12 lg:py-16 border-b border-slate-200/60">
+        <div className="container-max text-center max-w-3xl">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-sky-100/80 px-3.5 py-1 text-xs font-bold text-sky-800 mb-3">
+            Jaipur Homeowner Experiences
+          </span>
+          <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+            Customer Reviews & Proof of Quality
+          </h1>
+          <p className="mt-3 text-sm sm:text-base text-slate-600 font-medium leading-relaxed">
+            Unfiltered feedback from homes across Jaipur and real before-after
+            transformations verified by our field supervisors.
+          </p>
         </div>
       </div>
-    </div>
+
+      <ReviewsSection />
+
+      <CTASection />
+    </>
   );
 }

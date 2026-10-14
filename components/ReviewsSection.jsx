@@ -7,7 +7,10 @@ import {
   CalendarCheck,
   Clock,
   MapPin,
+  Star,
+  Quote,
 } from "lucide-react";
+import { testimonials } from "@/data/testimonials";
 
 export function ReviewsSection() {
   const trustFeatures = [
@@ -21,7 +24,8 @@ export function ReviewsSection() {
     {
       id: "villa",
       title: "Complete Home Sanitization & Deep Clean",
-      description: "Full villa deep scrub, machine floor buffing & eco-sanitization completed in 4 hours",
+      description:
+        "Full villa deep scrub, machine floor buffing & eco-sanitization completed in 4 hours",
       location: "Vaishali Nagar, Jaipur",
       scope: "Full Villa Deep Clean",
       image: "/images/before-after-clean-house.png",
@@ -29,7 +33,8 @@ export function ReviewsSection() {
     {
       id: "bathroom",
       title: "Jaipur Groundwater Salt Removal",
-      description: "Acid-free rotary brush treatment preserving grout & restoring mirror-like tile shine",
+      description:
+        "Acid-free rotary brush treatment preserving grout & restoring mirror-like tile shine",
       location: "Mansarovar, Jaipur",
       scope: "Glass & Tile Descale",
       image: "/images/before-after-clean-bathroom.png",
@@ -50,7 +55,9 @@ export function ReviewsSection() {
                 key={item.title}
                 {...(isCoverage ? { href: "#coverage-checker" } : {})}
                 className={`flex items-center gap-3 rounded-2xl bg-white p-4.5 border border-slate-200/80 shadow-xs transition-all ${
-                  isCoverage ? "hover:border-sky-300 hover:bg-sky-50/50 hover:shadow-sm cursor-pointer" : ""
+                  isCoverage
+                    ? "hover:border-sky-300 hover:bg-sky-50/50 hover:shadow-sm cursor-pointer"
+                    : ""
                 }`}
               >
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 text-sky-600 flex-shrink-0">
@@ -64,16 +71,101 @@ export function ReviewsSection() {
           })}
         </div>
 
-        {/* Section Heading */}
+        {/* --- CUSTOMER TESTIMONIALS SECTION --- */}
+        <div className="mb-20">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-12">
+            <div>
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-sky-600 mb-2">
+                <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                Real Customer Experiences
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
+                What Jaipur Homeowners Say
+              </h2>
+            </div>
+            <div className="flex items-center gap-3 lg:text-right">
+              <div className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-2 border border-slate-200/80 shadow-xs">
+                <span className="flex items-center gap-1 font-extrabold text-slate-900 text-sm">
+                  <Star className="h-4 w-4 fill-amber-400 text-amber-400" /> 4.9
+                </span>
+                <span className="text-slate-300">•</span>
+                <span className="text-xs font-semibold text-slate-500">
+                  Verified Local Reviews
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Testimonials 3-Column Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {testimonials.map((item) => (
+              <div
+                key={item.id}
+                className="rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-sky-200 transition-all flex flex-col justify-between relative group"
+              >
+                <div>
+                  {/* Top Bar: Stars + Service Tag */}
+                  <div className="flex items-center justify-between gap-2 mb-4">
+                    <div className="inline-flex items-center gap-1 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/60">
+                      <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                      <span className="text-xs font-black text-amber-800">
+                        {item.rating.toFixed(1)}
+                      </span>
+                    </div>
+
+                    <span className="text-[11px] font-bold text-sky-700 bg-sky-50 px-2.5 py-1 rounded-full border border-sky-100 truncate max-w-[170px]">
+                      {item.service}
+                    </span>
+                  </div>
+
+                  {/* Review Text */}
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium mb-6">
+                    &ldquo;{item.review}&rdquo;
+                  </p>
+                </div>
+
+                {/* Bottom Author Card */}
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-tr from-sky-500 to-indigo-600 text-white font-black text-xs flex-shrink-0 shadow-xs">
+                      {item.initials}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <h4 className="text-xs sm:text-sm font-bold text-slate-900 truncate">
+                          {item.name}
+                        </h4>
+                        <CheckCircle2
+                          className="h-3.5 w-3.5 text-emerald-500 flex-shrink-0"
+                          title="Verified Booking"
+                        />
+                      </div>
+                      <div className="flex items-center gap-1 text-[11px] text-slate-400 font-medium truncate">
+                        <MapPin className="h-3 w-3 text-slate-400 flex-shrink-0" />
+                        <span>{item.locality}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <span className="text-[10px] text-slate-400 font-medium whitespace-nowrap">
+                    {item.date}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* --- BEFORE / AFTER TRANSFORMATION SECTION --- */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-12">
           <div>
             <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-sky-600 mb-2">
               <Wrench className="h-3.5 w-3.5" />
               Evidence of Quality
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
-              Real Results in Jaipur Homes
-            </h2>
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
+              Real Transformation in Jaipur Homes
+            </h3>
           </div>
           <p className="text-sm text-slate-500 max-w-md font-medium leading-relaxed lg:text-right">
             Authentic before-and-after snapshots shot by our field supervisors
@@ -121,12 +213,14 @@ export function ReviewsSection() {
                       <span>{item.location}</span>
                     </span>
                     <span className="text-slate-300">•</span>
-                    <span className="text-slate-500 font-medium">{item.scope}</span>
+                    <span className="text-slate-500 font-medium">
+                      {item.scope}
+                    </span>
                   </div>
 
-                  <h3 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
+                  <h4 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
                     {item.title}
-                  </h3>
+                  </h4>
                   <p className="mt-1.5 text-xs sm:text-sm text-slate-500 font-medium leading-relaxed">
                     {item.description}
                   </p>

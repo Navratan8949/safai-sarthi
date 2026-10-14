@@ -41,7 +41,6 @@ export function Hero() {
               <span className="text-slate-300">•</span>
               <span className="text-amber-500 flex items-center gap-1 font-extrabold">
                 <Star className="h-3 w-3 fill-amber-400 text-amber-400" /> 4.9
-                (1.2k+ Reviews)
               </span>
             </div>
 

@@ -61,9 +61,6 @@ export function ServiceCard({ service }) {
           <span className="inline-flex items-center gap-1 rounded-full bg-slate-950/75 backdrop-blur-md px-2.5 py-1 text-xs font-black text-amber-300 border border-white/20 shadow-sm">
             <Star className="h-3 w-3 fill-amber-300 text-amber-300" />
             <span>4.9</span>
-            <span className="text-[10px] text-slate-300 font-medium">
-              (1.2k)
-            </span>
           </span>
         </div>
 
