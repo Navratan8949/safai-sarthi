@@ -8,7 +8,7 @@ import {
   INITIAL_ADMIN_BOOKINGS,
   INITIAL_CORPORATE_LEADS
 } from "@/data/adminInitialData";
-import { pincodeDirectory } from "@/data/pincodes";
+import { serviceablePincodes } from "@/data/pincodes";
 import {
   ShieldCheck,
   Users,
@@ -616,14 +616,14 @@ export function SuperAdminDashboard() {
               </p>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-              {pincodeDirectory.map((pin) => (
+              {serviceablePincodes.slice(0, 24).map((pin, idx) => (
                 <div
-                  key={pin.pincode}
+                  key={pin}
                   className="p-3 rounded-xl bg-slate-850 border border-slate-800 flex items-center justify-between"
                 >
                   <div>
-                    <span className="font-mono font-bold text-white text-xs block">{pin.pincode}</span>
-                    <span className="text-[11px] text-slate-400 block truncate max-w-[130px]">{pin.area}</span>
+                    <span className="font-mono font-bold text-white text-xs block">{pin}</span>
+                    <span className="text-[11px] text-slate-400 block truncate max-w-[130px]">Jaipur Sector {idx + 1}</span>
                   </div>
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" title="Serviceable" />
                 </div>
