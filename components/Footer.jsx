@@ -21,6 +21,7 @@ export function Footer() {
     { label: "Real Results & Reviews", href: "/reviews" },
     { label: "FAQs", href: "/faq" },
     { label: "Contact Us", href: "/contact" },
+    { label: "Super Admin Portal", href: "/admin" },
   ];
 
   const businessLinks = [

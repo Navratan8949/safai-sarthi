@@ -92,6 +92,14 @@ export function Header() {
               <MessageCircle className="h-3.5 w-3.5" />
               <span>WhatsApp Booking</span>
             </a>
+            <Link
+              href="/admin"
+              className="inline-flex items-center gap-1 text-[11px] font-bold text-sky-400 hover:text-sky-300 transition-colors px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/20"
+              title="Super Admin Operations Portal"
+            >
+              <ShieldCheck className="h-3 w-3 text-sky-400" />
+              <span>Admin</span>
+            </Link>
           </div>
         </div>
       </div>
