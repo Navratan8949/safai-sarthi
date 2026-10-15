@@ -3,7 +3,7 @@ import { FAQContent } from '@/components/FAQContent';
 
 export const metadata = {
   title: 'FAQ | SafaiSaarthi',
-  description: 'Frequently asked questions about booking, services, pricing, coupons, service areas, and more.',
+  description: 'Frequently asked questions about booking, services, pricing, service areas, and more.',
 };
 
 export default function FAQPage() {

@@ -83,7 +83,7 @@ export function WhyChooseUs() {
   return (
     <section className="py-20 lg:py-28 bg-gradient-to-b from-slate-50/60 via-white to-slate-50/60 border-t border-slate-200/70 relative overflow-hidden">
       {/* Background ambient lighting */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-sky-200/20 blur-3xl rounded-full pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[radial-gradient(ellipse_at_center,_rgba(186,230,253,0.25)_0%,_transparent_70%)] pointer-events-none" />
 
       <div className="container-max relative">
         <SectionHeading

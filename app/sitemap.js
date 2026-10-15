@@ -5,6 +5,7 @@ export default function sitemap() {
   const staticPages = [
     '',
     '/services',
+    '/rate-card',
     '/corporate-cleaning',
     '/corporate-enquiry',
     '/about',

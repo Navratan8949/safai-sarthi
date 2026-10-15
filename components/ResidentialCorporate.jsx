@@ -7,7 +7,7 @@ export function ResidentialCorporate() {
   return (
     <section className="py-20 lg:py-28 bg-slate-50/50 border-t border-slate-200/60 relative overflow-hidden">
       {/* Background ambient lighting */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-sky-100/40 blur-3xl rounded-full pointer-events-none -z-10" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[radial-gradient(ellipse_at_center,_rgba(224,242,254,0.4)_0%,_transparent_70%)] pointer-events-none -z-10" />
 
       <div className="container-max relative">
         <SectionHeading

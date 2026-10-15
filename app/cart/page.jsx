@@ -1,9 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, Tag, X, Check, AlertCircle } from 'lucide-react';
+import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, AlertCircle } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { formatCurrency } from '@/utils/pricing';
 import { calculateItemTotal } from '@/utils/pricing';
@@ -16,32 +15,12 @@ export default function CartPage() {
     increaseQuantity,
     decreaseQuantity,
     subtotal,
-    discount,
     additionalCharges,
     total,
-    coupon,
-    applyCoupon,
-    removeCoupon,
     remainingForMin,
     meetsMinimum,
     mounted,
   } = useCart();
-
-  const [couponCode, setCouponCode] = useState('');
-  const [couponMessage, setCouponMessage] = useState(null);
-
-  const handleApplyCoupon = () => {
-    if (!couponCode.trim()) return;
-    const result = applyCoupon(couponCode.trim());
-    setCouponMessage({ ...result, type: result.success ? 'success' : 'error' });
-    if (result.success) setCouponCode('');
-  };
-
-  const handleRemoveCoupon = () => {
-    removeCoupon();
-    setCouponMessage({ success: true, message: 'Coupon removed.', type: 'info' });
-    setCouponCode('');
-  };
 
   if (!mounted) {
     return (
@@ -92,6 +71,14 @@ export default function CartPage() {
                       <Link href={`/services/${item.slug}`}>
                         <h3 className="text-sm font-bold text-navy hover:text-sky-500 transition-colors truncate">{item.name}</h3>
                       </Link>
+                      {item.selectedVariant && (
+                        <div className="mt-1">
+                          <span className="inline-block px-2 py-0.5 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold">
+                            {item.selectedVariant.name}
+                            {item.selectedVariant.specs ? ` • ${item.selectedVariant.specs}` : ''}
+                          </span>
+                        </div>
+                      )}
                       <p className="text-xs text-ink-light mt-0.5">{item.category}</p>
                     </div>
                     <button
@@ -154,13 +141,6 @@ export default function CartPage() {
                   <span className="font-semibold text-navy">{formatCurrency(subtotal)}</span>
                 </div>
 
-                {discount > 0 && (
-                  <div className="flex justify-between text-sm">
-                    <span className="text-green-600">Discount ({coupon?.code})</span>
-                    <span className="font-semibold text-green-600">-{formatCurrency(discount)}</span>
-                  </div>
-                )}
-
                 {additionalCharges > 0 && (
                   <div className="flex justify-between text-sm">
                     <span className="text-ink-light">Additional Charges</span>
@@ -184,48 +164,6 @@ export default function CartPage() {
                   </p>
                 </div>
               )}
-
-              <div className="mt-5 pt-5 border-t border-border">
-                <label className="text-sm font-bold text-navy">Coupon Code</label>
-                {coupon ? (
-                  <div className="mt-2 flex items-center justify-between rounded-xl bg-green-50 border border-green-200 p-3">
-                    <div className="flex items-center gap-2">
-                      <Tag className="h-4 w-4 text-green-600" />
-                      <span className="text-sm font-bold text-green-800">{coupon.code}</span>
-                    </div>
-                    <button onClick={handleRemoveCoupon} className="text-green-600 hover:text-green-800">
-                      <X className="h-4 w-4" />
-                    </button>
-                  </div>
-                ) : (
-                  <div className="mt-2 flex gap-2">
-                    <input
-                      type="text"
-                      value={couponCode}
-                      onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                      onKeyDown={(e) => e.key === 'Enter' && handleApplyCoupon()}
-                      placeholder="Enter coupon code"
-                      className="input-base flex-1 text-sm"
-                    />
-                    <button onClick={handleApplyCoupon} className="btn-secondary !px-4 !py-3 text-sm whitespace-nowrap">
-                      Apply
-                    </button>
-                  </div>
-                )}
-
-                {couponMessage && (
-                  <div className={`mt-2 flex items-start gap-2 text-xs ${
-                    couponMessage.type === 'success' ? 'text-green-700' : 'text-orange-700'
-                  }`}>
-                    {couponMessage.type === 'success' ? (
-                      <Check className="h-3.5 w-3.5 flex-shrink-0 mt-0.5" />
-                    ) : (
-                      <AlertCircle className="h-3.5 w-3.5 flex-shrink-0 mt-0.5" />
-                    )}
-                    {couponMessage.message}
-                  </div>
-                )}
-              </div>
 
               <Link
                 href={meetsMinimum ? '/checkout' : '#'}

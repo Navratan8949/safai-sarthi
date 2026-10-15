@@ -2,65 +2,69 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
 import { categories } from "@/data/categories";
-
-const iconMap = {
-  Utensils: "Utensils",
-  ShowerHead: "ShowerHead",
-  BedDouble: "BedDouble",
-  Sofa: "Sofa",
-  Home: "Home",
-  Sparkles: "Sparkles",
-  Sun: "Sun",
-};
 
 export function CategoryGrid() {
   return (
-    <section className="py-8 lg:py-12">
+    <section className="py-10 lg:py-14">
       <div className="container-max">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4 lg:gap-6">
+        {/* Top Badge: Your Space, Our Expertise (Theme aligned Sky & Emerald) */}
+        <div className="flex justify-center mb-2.5">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-sky-50 border border-sky-200/80 shadow-2xs">
+            <span className="flex items-center justify-center w-4 h-4 rounded-full bg-emerald-600 text-white shadow-2xs">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-2.5 h-2.5"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </span>
+            <span className="text-xs font-extrabold tracking-tight text-navy">
+              Your Space, Our Expertise
+            </span>
+          </div>
+        </div>
+
+        {/* Heading */}
+        <h2 className="text-2xl sm:text-3xl font-black text-navy text-center tracking-tight">
+          Choose your category
+        </h2>
+        <p className="text-xs sm:text-sm text-ink-light text-center mt-1 max-w-md mx-auto">
+          Explore our professional cleaning services tailored for your home and
+          office in Jaipur.
+        </p>
+
+        {/* Compact 8 Categories Grid with Theme Colors & High Hover Zoom */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5 max-w-4xl mx-auto mt-7 sm:mt-8">
           {categories.map((cat) => (
             <Link
               key={cat.id}
-              href={
-                cat.id === "other"
-                  ? "/services"
-                  : `/services?category=${encodeURIComponent(cat.name)}`
-              }
-              className="group relative overflow-hidden rounded-2xl border border-sky-100/60 bg-white shadow-md shadow-sky-900/5 h-48 sm:h-60 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/20 hover:border-sky-300"
+              href={`/services?category=${encodeURIComponent(cat.shortName || cat.name)}`}
+              className="group flex flex-col items-center text-center focus:outline-none"
             >
-              <Image
-                src={cat.image}
-                alt={cat.name}
-                fill
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 400px"
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-              />
-              {/* Luxury dark glass gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent transition-opacity duration-300 group-hover:via-slate-950/30" />
-
-              {/* Top pill badge */}
-              <div className="absolute top-3 left-3">
-                <span className="inline-flex items-center gap-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 px-2.5 py-0.5 text-[10px] font-bold text-white shadow-xs">
-                  <span className="h-1.5 w-1.5 rounded-full bg-sky-300" />
-                  Service
-                </span>
-              </div>
-
-              {/* Bottom content */}
-              <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
-                <h3 className="text-base sm:text-xl font-black text-white tracking-tight drop-shadow-sm group-hover:text-sky-300 transition-colors">
-                  {cat.name}
-                </h3>
-                <p className="text-xs text-slate-200 mt-1 line-clamp-1 font-medium">
-                  {cat.description}
-                </p>
-                <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-sky-400 group-hover:text-white transition-colors">
-                  <span>Explore Service</span>
-                  <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+              {/* Card Container with SafaiSaarthi Theme Background (Static, no card hover) */}
+              <div className="w-full aspect-[1.12/1] rounded-2xl bg-gradient-to-b from-[#F5FAFF] to-[#EAF6FF]/80 border border-[#DFEAF2] p-2 sm:p-2.5 flex items-center justify-center shadow-2xs">
+                {/* 3D Transparent Image with prominent hover scale */}
+                <div className="relative w-28 h-28 sm:w-28 sm:h-28 md:w-36 md:h-36 flex items-center justify-center">
+                  <Image
+                    src={cat.image}
+                    alt={cat.name}
+                    fill
+                    sizes="(max-width: 640px) 150px, 200px"
+                    className="object-contain select-none transition-transform duration-300 ease-out transform-gpu will-change-transform group-hover:scale-125 origin-center"
+                  />
                 </div>
               </div>
+
+              {/* Title below card */}
+              <h3 className="mt-2.5 font-bold text-navy text-xs sm:text-xs md:text-sm leading-tight tracking-tight group-hover:text-sky-600 transition-colors px-1">
+                {cat.name}
+              </h3>
             </Link>
           ))}
         </div>

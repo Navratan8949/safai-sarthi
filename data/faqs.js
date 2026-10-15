@@ -37,17 +37,7 @@ export const faqs = [
   {
     category: 'Pricing',
     question: 'Is there a minimum order value?',
-    answer: 'Yes, residential bookings have a minimum order value of ₹399 (before any coupon discount). You can add more services to reach the minimum.',
-  },
-  {
-    category: 'Coupons',
-    question: 'How do I apply a coupon code?',
-    answer: 'Enter your coupon code in the cart page and click Apply. If valid, the discount will be reflected in your order total.',
-  },
-  {
-    category: 'Coupons',
-    question: 'Can I use multiple coupons on one order?',
-    answer: 'No, only one coupon can be applied per booking request.',
+    answer: 'Yes, residential bookings have a minimum order value of ₹399. You can add more services to reach the minimum.',
   },
   {
     category: 'Service Areas',

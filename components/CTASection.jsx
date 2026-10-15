@@ -8,13 +8,13 @@ export function CTASection() {
       <div className="container-max">
         <div className="relative overflow-hidden rounded-[36px] bg-gradient-to-r from-slate-900 via-sky-950 to-slate-900 px-6 py-14 lg:px-16 lg:py-20 border border-sky-400/20 shadow-2xl shadow-sky-950/20">
           {/* Ambient light glows */}
-          <div className="absolute top-0 right-0 h-96 w-96 rounded-full bg-sky-500/20 blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 h-80 w-80 rounded-full bg-indigo-500/20 blur-3xl pointer-events-none" />
+          <div className="absolute top-0 right-0 h-96 w-96 rounded-full bg-[radial-gradient(circle,_rgba(14,165,233,0.2)_0%,_transparent_70%)] pointer-events-none" />
+          <div className="absolute bottom-0 left-0 h-80 w-80 rounded-full bg-[radial-gradient(circle,_rgba(99,102,241,0.2)_0%,_transparent_70%)] pointer-events-none" />
 
           <div className="relative text-center max-w-2xl mx-auto flex flex-col items-center">
             
             {/* Brand Trust Pill */}
-            <div className="inline-flex items-center gap-3 rounded-full bg-white/10 px-4 py-2 backdrop-blur-md border border-white/20 mb-6 shadow-sm">
+            <div className="inline-flex items-center gap-3 rounded-full bg-white/10 px-4 py-2 border border-white/20 mb-6 shadow-sm">
               <div className="relative h-6 w-20 flex-shrink-0 bg-white/95 rounded-lg px-1.5 py-0.5 shadow-2xs">
                 <Image
                   src="/images/safaisaarthi-jaipur-logo.png"

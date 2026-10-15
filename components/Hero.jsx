@@ -16,16 +16,9 @@ import {
 export function Hero() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-sky-100/60 via-sky-50/40 to-white pt-6 pb-12 lg:pt-12 lg:pb-20">
-      {/* Dynamic Background Glow & Ambient Mesh */}
-      <div className="absolute top-0 right-10 h-[500px] w-[500px] rounded-full bg-gradient-to-bl from-sky-300/35 to-cyan-200/20 blur-3xl pointer-events-none animate-pulse-glow" />
-      <div className="absolute top-40 left-0 h-[400px] w-[400px] rounded-full bg-gradient-to-tr from-sky-200/40 to-indigo-100/30 blur-3xl pointer-events-none" />
-
-      {/* Floating Sparkle Ambient Lights */}
-      <div className="absolute top-20 left-1/4 h-2 w-2 rounded-full bg-sky-400 blur-xs animate-ping" />
-      <div
-        className="absolute top-36 right-1/3 h-2.5 w-2.5 rounded-full bg-amber-400 blur-xs animate-ping"
-        style={{ animationDelay: "1.2s" }}
-      />
+      {/* Performance-optimized Ambient Mesh */}
+      <div className="absolute top-0 right-10 h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,_rgba(125,211,252,0.3)_0%,_transparent_70%)] pointer-events-none" />
+      <div className="absolute top-40 left-0 h-[400px] w-[400px] rounded-full bg-[radial-gradient(circle,_rgba(186,230,253,0.3)_0%,_transparent_70%)] pointer-events-none" />
 
       <div className="container-max relative">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
@@ -151,18 +144,18 @@ export function Hero() {
               </div>
 
               {/* Floating Badge 1 (Top-Left): Trusted by 15,000+ Jaipur Homes (Reference Style) */}
-              <div className="absolute top-12 -left-16 rounded-full bg-white/95 backdrop-blur-md px-4 py-2 shadow-xl border border-sky-100 hidden sm:flex items-center gap-2.5 z-30 animate-float">
+              <div className="absolute top-12 -left-2 rounded-full bg-white px-4 py-2 shadow-xl border border-sky-100 hidden sm:flex items-center gap-2.5 z-30 animate-float">
                 <div className="flex h-7 w-7 items-center justify-center rounded-full bg-amber-50 text-amber-500 flex-shrink-0">
                   <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
                 </div>
                 <span className="text-xs font-black text-slate-800 whitespace-nowrap">
-                  Trusted by 15,000+ Homes
+                  Trusted
                 </span>
               </div>
 
               {/* Floating Badge 2 (Center-Right): 100% In-House Verified Teams (Reference Style) */}
               <div
-                className="absolute top-1/2 -right-16 rounded-full bg-white/95 backdrop-blur-md px-4 py-2 shadow-xl border border-sky-100 hidden sm:flex items-center gap-2.5 z-30 animate-float"
+                className="absolute top-1/2 -right-16 rounded-full bg-white px-4 py-2 shadow-xl border border-sky-100 hidden sm:flex items-center gap-2.5 z-30 animate-float"
                 style={{ animationDelay: "1.2s" }}
               >
                 <div className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-50 text-emerald-600 flex-shrink-0">
@@ -175,7 +168,7 @@ export function Hero() {
 
               {/* Floating Badge 3 (Bottom-Left): Safe & Eco-Friendly Products (Reference Style) */}
               <div
-                className="absolute bottom-16 -left-5 rounded-full bg-white/95 backdrop-blur-md px-4 py-2 shadow-xl border border-sky-100 hidden sm:flex items-center gap-2.5 z-30 animate-float"
+                className="absolute bottom-16 -left-5 rounded-full bg-white px-4 py-2 shadow-xl border border-sky-100 hidden sm:flex items-center gap-2.5 z-30 animate-float"
                 style={{ animationDelay: "2.4s" }}
               >
                 <div className="flex h-7 w-7 items-center justify-center rounded-full bg-sky-50 text-sky-600 flex-shrink-0">

@@ -7,8 +7,6 @@ export function generateBookingWhatsAppMessage(data) {
     address,
     items,
     subtotal,
-    coupon,
-    discount,
     additionalCharges,
     total,
     preference,
@@ -43,7 +41,11 @@ export function generateBookingWhatsAppMessage(data) {
     const lineTotal = formatCurrency(
       (item.price + (item.selectedAddOns || []).reduce((s, a) => s + a.price, 0)) * item.quantity
     );
-    message += `${i + 1}. ${item.name}\n`;
+    const variantInfo = item.selectedVariant ? ` (${item.selectedVariant.name})` : '';
+    message += `${i + 1}. ${item.name}${variantInfo}\n`;
+    if (item.selectedVariant?.specs) {
+      message += `   Option/Size: ${item.selectedVariant.specs}\n`;
+    }
     message += `   Quantity: ${item.quantity}\n`;
     message += `   Add-ons: ${addOnNames}\n`;
     message += `   Price: ${lineTotal}\n\n`;
@@ -51,8 +53,6 @@ export function generateBookingWhatsAppMessage(data) {
 
   message += `ORDER SUMMARY\n\n`;
   message += `Subtotal: ${formatCurrency(subtotal)}\n`;
-  message += `Coupon: ${coupon ? coupon.code : 'None'}\n`;
-  message += `Discount: ${formatCurrency(discount)}\n`;
   message += `Additional Charges: ${formatCurrency(additionalCharges)}\n`;
   message += `Estimated Total: ${formatCurrency(total)}\n\n`;
 

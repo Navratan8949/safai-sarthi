@@ -191,13 +191,13 @@ export function ReviewsSection() {
                 />
 
                 {/* Floating Location Overlay Badge */}
-                <div className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 rounded-full bg-slate-900/80 backdrop-blur-md px-3.5 py-1.5 text-xs font-bold text-white shadow-lg border border-white/15">
+                <div className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 rounded-full bg-slate-900/90 px-3.5 py-1.5 text-xs font-bold text-white shadow-lg border border-white/15">
                   <MapPin className="h-3.5 w-3.5 text-sky-400 flex-shrink-0" />
                   <span>{item.location}</span>
                 </div>
 
                 {/* Verified Job Badge */}
-                <div className="absolute top-4 right-4 z-10 inline-flex items-center gap-1 rounded-full bg-emerald-600/90 backdrop-blur-md px-3 py-1.5 text-[11px] font-bold text-white shadow-lg">
+                <div className="absolute top-4 right-4 z-10 inline-flex items-center gap-1 rounded-full bg-emerald-600 px-3 py-1.5 text-[11px] font-bold text-white shadow-lg">
                   <CheckCircle2 className="h-3.5 w-3.5 text-white" />
                   <span>Verified Job</span>
                 </div>

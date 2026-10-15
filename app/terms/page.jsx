@@ -14,7 +14,7 @@ export default function TermsPage() {
           <h3 className="text-navy font-bold text-base">Pricing</h3>
           <p>Prices shown on this website are starting prices for standard services. Final pricing may vary based on the size of your space, condition, and selected add-ons. The estimated total at checkout is a request, not a final invoice.</p>
           <h3 className="text-navy font-bold text-base">Minimum Order</h3>
-          <p>Residential bookings have a minimum order value of ₹399 before any coupon discount.</p>
+          <p>Residential bookings have a minimum order value of ₹399.</p>
           <h3 className="text-navy font-bold text-base">No Online Payment</h3>
           <p>This website does not process payments. Payment terms are discussed and finalized via WhatsApp when your booking is confirmed.</p>
           <h3 className="text-navy font-bold text-base">Service Availability</h3>

@@ -26,10 +26,8 @@ export default function CheckoutPage() {
   const {
     cartItems,
     subtotal,
-    discount,
     additionalCharges,
     total,
-    coupon,
     pincode: cartPincode,
     userLocation,
     detectLocation,
@@ -155,8 +153,6 @@ export default function CheckoutPage() {
       },
       items: cartItems,
       subtotal,
-      coupon,
-      discount,
       additionalCharges,
       total,
       preference: { date: formData.date, time: formData.time },
@@ -465,6 +461,9 @@ export default function CheckoutPage() {
                   <div key={item.id} className="flex justify-between text-sm">
                     <div className="flex-1 min-w-0">
                       <p className="font-semibold text-navy truncate">{item.name}</p>
+                      {item.selectedVariant && (
+                        <p className="text-[11px] font-bold text-sky-700">{item.selectedVariant.name}</p>
+                      )}
                       <p className="text-xs text-ink-light">Qty: {item.quantity}</p>
                     </div>
                     <span className="font-semibold text-navy ml-2">{formatCurrency(calculateItemTotal(item))}</span>
@@ -477,12 +476,6 @@ export default function CheckoutPage() {
                   <span className="text-ink-light">Subtotal</span>
                   <span className="font-semibold text-navy">{formatCurrency(subtotal)}</span>
                 </div>
-                {discount > 0 && (
-                  <div className="flex justify-between text-sm">
-                    <span className="text-green-600">Discount</span>
-                    <span className="font-semibold text-green-600">-{formatCurrency(discount)}</span>
-                  </div>
-                )}
                 {additionalCharges > 0 && (
                   <div className="flex justify-between text-sm">
                     <span className="text-ink-light">Additional Charges</span>

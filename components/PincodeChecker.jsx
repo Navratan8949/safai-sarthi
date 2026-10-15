@@ -86,7 +86,7 @@ export function PincodeChecker() {
   };
 
   return (
-    <div className="rounded-3xl border border-sky-100/80 bg-white/95 p-6 lg:p-8 shadow-xl shadow-sky-900/5 backdrop-blur-md">
+    <div className="rounded-3xl border border-sky-100/80 bg-white p-6 lg:p-8 shadow-xl shadow-sky-900/5">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
         <div className="flex items-center gap-2.5">
           <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-sky-50 text-sky-500 shadow-2xs">

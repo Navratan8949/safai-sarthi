@@ -25,8 +25,17 @@ export function Header() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    window.addEventListener("scroll", onScroll);
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 8);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -131,9 +140,9 @@ export function Header() {
 
       {/* Main Sticky Header */}
       <header
-        className={`sticky top-0 z-40 transition-all duration-300 ${
+        className={`sticky top-0 z-40 transition-all duration-200 ${
           scrolled
-            ? "bg-white/95 backdrop-blur-md shadow-md shadow-sky-900/5 border-b border-sky-100 py-2"
+            ? "bg-white/98 shadow-sm shadow-sky-900/5 border-b border-sky-100 py-2"
             : "bg-white border-b border-slate-100 py-2.5 lg:py-3"
         }`}
       >

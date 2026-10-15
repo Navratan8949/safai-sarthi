@@ -36,23 +36,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 lg:py-24">
-        <div className="container-max">
-          <SectionHeading
-            center
-            eyebrow="Service Categories"
-            title="Browse by category"
-            description="Find the right cleaning service for your space."
-          />
-        </div>
-        <div className="mt-10">
-          <CategoryGrid />
-        </div>
-      </section>
+      <CategoryGrid />
 
       <section className="py-20 lg:py-28 bg-gradient-to-b from-slate-50/60 via-sky-50/40 to-slate-50/60 border-t border-slate-200/60 relative overflow-hidden">
-        {/* Subtle background ambient glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[450px] bg-sky-200/25 blur-3xl rounded-full pointer-events-none -z-10" />
+        {/* Performance-optimized ambient glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[450px] bg-[radial-gradient(ellipse_at_center,_rgba(186,230,253,0.35)_0%,_transparent_70%)] pointer-events-none -z-10" />
 
         <div className="container-max relative">
           <SectionHeading
@@ -61,7 +49,7 @@ export default function Home() {
             title="Popular Cleaning Services"
             description="Our most requested cleaning services for homes in Jaipur."
           />
-          <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7 lg:gap-8">
+          <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-6">
             {popular.map((service) => (
               <ServiceCard key={service.id} service={service} />
             ))}

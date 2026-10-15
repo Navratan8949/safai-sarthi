@@ -16,9 +16,14 @@ import { SectionHeading } from "./SectionHeading";
 import { services } from "@/data/services";
 
 export function ServiceScopeSection() {
-  // Pick top 4 representative services for quick tab switching
-  const featuredServices = services.slice(0, 4);
-  const [activeSlug, setActiveSlug] = useState(featuredServices[0].slug);
+  // Pick top 4 representative services across domains for quick tab switching
+  const featuredServices = [
+    services.find((s) => s.slug === "full-house-deep-cleaning"),
+    services.find((s) => s.slug === "kitchen-deep-cleaning"),
+    services.find((s) => s.slug === "bathroom-deep-cleaning"),
+    services.find((s) => s.slug === "sofa-shampooing"),
+  ].filter(Boolean);
+  const [activeSlug, setActiveSlug] = useState(featuredServices[0]?.slug || "full-house-deep-cleaning");
 
   const activeService =
     featuredServices.find((s) => s.slug === activeSlug) || featuredServices[0];

@@ -5,11 +5,11 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   Clock,
-  Plus,
   Check,
   Star,
-  ShieldCheck,
-  ArrowRight,
+  FileText,
+  ShoppingCart,
+  CheckCircle2,
 } from "lucide-react";
 import { formatCurrency } from "@/utils/pricing";
 import { useCart } from "@/context/CartContext";
@@ -17,152 +17,213 @@ import { useCart } from "@/context/CartContext";
 export function ServiceCard({ service }) {
   const { addToCart } = useCart();
   const [isAdded, setIsAdded] = useState(false);
+  const [showMoreDesc, setShowMoreDesc] = useState(false);
+  const [showMoreIncludes, setShowMoreIncludes] = useState(false);
 
-  // Compute realistic original strikethrough price and savings badge
-  const originalPrice = Math.round((service.price * 1.3) / 50) * 50 - 1;
-  const discountPercent = Math.round(
-    ((originalPrice - service.price) / originalPrice) * 100,
-  );
+  const baseVariant =
+    service.variants && service.variants.length > 0
+      ? service.variants[0]
+      : null;
+  const originalPrice =
+    service.originalPrice ||
+    (baseVariant
+      ? baseVariant.originalPrice
+      : Math.round((service.price * 1.3) / 50) * 50 - 1);
+  const discountPercent =
+    service.discountPercent ||
+    Math.round(((originalPrice - service.price) / originalPrice) * 100);
 
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    addToCart(service, 1, []);
+    if (baseVariant) {
+      addToCart(
+        {
+          ...service,
+          ...baseVariant,
+          id: `${service.id}-${baseVariant.id}`,
+          price: baseVariant.price,
+          originalPrice: baseVariant.originalPrice,
+          selectedVariant: baseVariant,
+        },
+        1,
+        [],
+      );
+    } else {
+      addToCart(service, 1, []);
+    }
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 1600);
   };
 
+  // Truncate description text
+  const fullDesc = service.description || service.shortDescription || "";
+  const shouldTruncateDesc = fullDesc.length > 110;
+  const displayDesc =
+    !showMoreDesc && shouldTruncateDesc
+      ? `${fullDesc.slice(0, 110)}...`
+      : fullDesc;
+
+  // Truncate includes list
+  const includedItems = service.included || [];
+  const hasMoreIncludes = includedItems.length > 2;
+  const displayIncludes = showMoreIncludes
+    ? includedItems
+    : includedItems.slice(0, 2);
+
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-2xl bg-white border border-slate-200/90 shadow-md shadow-slate-900/5 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/12 hover:border-sky-300">
-      {/* Top Image Showcase */}
-      <Link
-        href={`/services/${service.slug}`}
-        className="block relative h-56 sm:h-60 w-full overflow-hidden bg-slate-100"
-      >
-        <Image
-          src={service.image}
-          alt={service.name}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-108"
-        />
-        {/* Subtle Vignette & Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-950/10 to-transparent pointer-events-none" />
-
-        {/* Top-left Category Pill */}
-        <div className="absolute top-2 left-2">
-          <span className="rounded-full bg-white/95 backdrop-blur-md px-3 py-1 text-xs font-black text-slate-800 shadow-sm border border-white/80">
-            {service.category}
-          </span>
-        </div>
-
-        {/* Top-right Rating Pill */}
-        <div className="absolute top-3.5 right-3.5">
-          <span className="inline-flex items-center gap-1 rounded-full bg-slate-950/75 backdrop-blur-md px-2.5 py-1 text-xs font-black text-amber-300 border border-white/20 shadow-sm">
-            <Star className="h-3 w-3 fill-amber-300 text-amber-300" />
-            <span>4.9</span>
-          </span>
-        </div>
-
-        {/* Bottom-left Guarantee Tag */}
-        <div className="absolute bottom-3 left-3">
-          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/90 backdrop-blur-md px-2.5 py-0.5 text-[11px] font-extrabold text-white shadow-sm border border-emerald-400/30">
-            <ShieldCheck className="h-3 w-3" />
-            <span>Verified SOP Squad</span>
-          </span>
-        </div>
-      </Link>
-
-      {/* Card Body */}
-      <div className="flex flex-1 flex-col p-6 sm:p-4">
-        <Link href={`/services/${service.slug}`}>
-          <h3 className="text-xl font-black text-slate-900 group-hover:text-sky-600 transition-colors line-clamp-1 tracking-tight">
-            {service.name}
-          </h3>
+    <div className="group rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm transition-all duration-300 hover:border-sky-300 hover:shadow-md">
+      {/* Top Section: Left Image + Right Details */}
+      <div className="flex flex-col sm:flex-row gap-5 items-start">
+        {/* Left Thumbnail Image */}
+        <Link
+          href={`/services/${service.slug}`}
+          className="relative w-full sm:w-48 h-44 sm:h-44 rounded-xl overflow-hidden flex-shrink-0 bg-slate-100 block"
+        >
+          <Image
+            src={service.image}
+            alt={service.name}
+            fill
+            sizes="(max-width: 640px) 100vw, 200px"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          {service.category && (
+            <div className="absolute top-2 left-2">
+              <span className="rounded-md bg-slate-900/90 px-2 py-0.5 text-[10px] font-black text-white shadow-xs">
+                {service.category}
+              </span>
+            </div>
+          )}
         </Link>
 
-        <p className="mt-1 text-xs sm:text-sm text-slate-500 leading-relaxed line-clamp-2 font-medium">
-          {service.shortDescription}
-        </p>
+        {/* Right Info Section */}
+        <div className="flex-1 min-w-0 w-full flex flex-col">
+          {/* Title & Starts At Price Row */}
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <Link href={`/services/${service.slug}`}>
+                <h3 className="text-base sm:text-lg font-black text-slate-900 group-hover:text-sky-600 transition-colors tracking-tight line-clamp-1">
+                  {service.name}
+                </h3>
+              </Link>
 
-        {/* Feature Pills */}
-        <div className="mt-2 flex flex-wrap items-center gap-1">
-          <div className="inline-flex items-center gap-1 rounded-lg bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700 border border-emerald-200/70">
-            <Check className="h-3.5 w-3.5 stroke-[2.5]" />
-            <span>{service.included?.length || 6} Tasks Included</span>
-          </div>
-          <div className="inline-flex items-center gap-1 rounded-lg bg-sky-50 px-2.5 py-1 text-xs font-bold text-sky-700 border border-sky-200/70">
-            <Clock className="h-3.5 w-3.5 text-sky-500" />
-            <span>{service.duration}</span>
-          </div>
-        </div>
-
-        {/* Quick 2-point checklist preview */}
-        {service.included && service.included.length > 0 && (
-          <div className="mt-2 space-y-1.5 pt-3.5 pb-4 border-t border-slate-100">
-            {service.included.slice(0, 2).map((item, idx) => (
-              <div
-                key={idx}
-                className="flex items-center gap-1.5 text-xs font-medium text-slate-600 truncate"
-              >
-                <div className="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 flex-shrink-0">
-                  <Check className="h-2.5 w-2.5 stroke-[3]" />
-                </div>
-                <span className="truncate">{item}</span>
+              {/* Rating & Area Sq Ft Row */}
+              <div className="mt-1 flex items-center gap-2 flex-wrap">
+                <span className="inline-flex items-center gap-1 text-xs font-black text-amber-500">
+                  <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                  <span className="text-slate-800">4.9</span>
+                </span>
+                {service.areaBadge && (
+                  <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md bg-amber-50 border border-amber-200/80 text-[10px] font-black text-amber-900">
+                    <span>📐</span>
+                    <span>{service.areaBadge}</span>
+                  </span>
+                )}
+                <span className="text-slate-400 text-xs">•</span>
+                <span className="text-xs text-slate-500 font-medium flex items-center gap-1">
+                  <Clock className="h-3 w-3 text-sky-500" />
+                  {service.duration}
+                </span>
               </div>
-            ))}
-          </div>
-        )}
-
-        {/* Bottom Pricing & Actions Bar */}
-        <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
-          {/* Price Column */}
-          <div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-xs text-slate-400 line-through font-semibold">
-                {formatCurrency(originalPrice)}
-              </span>
-              <span className="rounded-md bg-emerald-100 px-1.5 py-0.5 text-[10px] font-black text-emerald-700 uppercase tracking-tight">
-                {discountPercent}% OFF
-              </span>
             </div>
-            <div className="flex items-baseline gap-1 mt-0.5">
-              <span className="text-2xl font-black text-slate-900 tracking-tight">
-                {formatCurrency(service.price)}
-              </span>
-            </div>
-          </div>
 
-          {/* Action Buttons */}
-          <div className="flex items-center gap-2">
-            <Link
-              href={`/services/${service.slug}`}
-              className="inline-flex items-center justify-center rounded-xl border border-slate-200/90 px-3 py-2.5 text-xs font-bold text-slate-700 transition-all hover:border-sky-300 hover:bg-sky-50/70 hover:text-sky-600 active:scale-95"
-            >
-              Details
-            </Link>
-            <button
-              onClick={handleAddToCart}
-              className={`inline-flex items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-xs font-bold transition-all active:scale-95 shadow-sm ${
-                isAdded
-                  ? "bg-emerald-600 text-white shadow-emerald-600/30 ring-2 ring-emerald-500/40"
-                  : "bg-gradient-to-r from-sky-500 to-sky-600 text-white shadow-sky-500/25 hover:from-sky-600 hover:to-sky-700 hover:shadow-md hover:shadow-sky-500/35 hover:-translate-y-0.5"
-              }`}
-            >
-              {isAdded ? (
-                <>
-                  <Check className="h-3.5 w-3.5 stroke-[3]" />
-                  <span>Added!</span>
-                </>
-              ) : (
-                <>
-                  <Plus className="h-3.5 w-3.5 stroke-[2.5]" />
-                  <span>Book</span>
-                </>
+            {/* Starts At Price Display */}
+            <div className="text-right flex-shrink-0">
+              <span className="text-xs text-slate-400 font-medium block">
+                Starts At
+              </span>
+              <div className="flex items-baseline justify-end gap-1.5">
+                {originalPrice > service.price && (
+                  <span className="text-xs text-slate-400 line-through font-semibold hidden sm:inline">
+                    {formatCurrency(originalPrice)}
+                  </span>
+                )}
+                <span className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
+                  {formatCurrency(service.price)}
+                </span>
+              </div>
+              {discountPercent > 0 && (
+                <span className="inline-block rounded bg-emerald-50 text-emerald-700 text-[10px] font-black px-1.5 py-0.5">
+                  {discountPercent}% OFF
+                </span>
               )}
-            </button>
+            </div>
           </div>
+
+          {/* Short Description with "See more" toggle */}
+          <div className="mt-2 text-xs sm:text-sm text-slate-500 leading-relaxed font-medium">
+            <p className="inline">{displayDesc}</p>
+            {shouldTruncateDesc && (
+              <button
+                type="button"
+                onClick={() => setShowMoreDesc(!showMoreDesc)}
+                className="ml-1 text-sky-600 hover:text-sky-700 font-bold underline cursor-pointer text-xs"
+              >
+                {showMoreDesc ? "See less" : "See more"}
+              </button>
+            )}
+          </div>
+
+          {/* Includes Section with Green Checkmark */}
+          {includedItems.length > 0 && (
+            <div className="mt-3 pt-2.5 border-t border-slate-100">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-700">
+                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 stroke-[2.5]" />
+                <span>Includes:</span>
+              </div>
+              <ul className="mt-1 space-y-0.5 text-xs text-slate-600 font-medium">
+                {displayIncludes.map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-1.5">
+                    <span className="text-slate-400">•</span>
+                    <span className="line-clamp-1">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              {hasMoreIncludes && (
+                <button
+                  type="button"
+                  onClick={() => setShowMoreIncludes(!showMoreIncludes)}
+                  className="mt-1 text-sky-600 hover:text-sky-700 font-bold text-xs cursor-pointer underline"
+                >
+                  {showMoreIncludes ? "See less" : "See more"}
+                </button>
+              )}
+            </div>
+          )}
         </div>
+      </div>
+
+      {/* Bottom Actions Bar (Side-by-side buttons exactly as requested) */}
+      <div className="mt-4 pt-4 border-t border-slate-100 grid grid-cols-2 gap-3">
+        <Link
+          href={`/services/${service.slug}`}
+          className="flex items-center justify-center gap-2 rounded-xl border border-sky-200/90 bg-sky-50/50 hover:bg-sky-100 text-sky-700 py-2.5 px-4 text-xs sm:text-sm font-bold transition-all shadow-2xs active:scale-98"
+        >
+          <FileText className="h-4 w-4 text-sky-600" />
+          <span>View details</span>
+        </Link>
+
+        <button
+          type="button"
+          onClick={handleAddToCart}
+          className={`flex items-center justify-center gap-2 rounded-xl py-2.5 px-4 text-xs sm:text-sm font-bold transition-all shadow-sm active:scale-98 ${
+            isAdded
+              ? "bg-emerald-600 text-white shadow-emerald-600/30"
+              : "bg-sky-500 hover:bg-sky-600 text-white shadow-sky-500/25"
+          }`}
+        >
+          {isAdded ? (
+            <>
+              <Check className="h-4 w-4 stroke-[3]" />
+              <span>Added!</span>
+            </>
+          ) : (
+            <>
+              <ShoppingCart className="h-4 w-4" />
+              <span>Add</span>
+            </>
+          )}
+        </button>
       </div>
     </div>
   );

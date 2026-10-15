@@ -48,8 +48,8 @@ export function Footer() {
   return (
     <footer className="relative bg-slate-950 text-slate-300 border-t border-slate-800/80 overflow-hidden">
       {/* Subtle Background Glows */}
-      <div className="absolute top-0 left-1/4 h-80 w-80 rounded-full bg-sky-500/5 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 right-1/4 h-80 w-80 rounded-full bg-indigo-500/5 blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-1/4 h-80 w-80 rounded-full bg-[radial-gradient(circle,_rgba(14,165,233,0.06)_0%,_transparent_70%)] pointer-events-none" />
+      <div className="absolute bottom-10 right-1/4 h-80 w-80 rounded-full bg-[radial-gradient(circle,_rgba(99,102,241,0.06)_0%,_transparent_70%)] pointer-events-none" />
 
       {/* Top Value Proposition Strip */}
       {/* <div className="border-b border-slate-800/70 bg-slate-900/60 backdrop-blur-sm">
