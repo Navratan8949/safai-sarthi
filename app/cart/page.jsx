@@ -17,6 +17,8 @@ export default function CartPage() {
     subtotal,
     additionalCharges,
     total,
+    advanceAmount,
+    remainingBalance,
     remainingForMin,
     meetsMinimum,
     mounted,
@@ -154,6 +156,20 @@ export default function CartPage() {
                   <span className="text-sm font-bold text-navy">Estimated Total</span>
                   <span className="text-2xl font-bold text-navy">{formatCurrency(total)}</span>
                 </div>
+              </div>
+
+              {/* Advance Booking Amount Preview */}
+              <div className="mt-3 rounded-xl bg-gradient-to-r from-sky-50 to-emerald-50/60 border border-sky-200/80 p-3 flex items-center justify-between">
+                <div>
+                  <span className="text-xs font-bold text-navy block">Advance Booking Amount</span>
+                  <span className="text-[11px] text-sky-700">Payable via QR after checkout</span>
+                </div>
+                <span className="text-sm font-extrabold text-emerald-700 bg-white px-2.5 py-1 rounded-lg border border-emerald-300 shadow-2xs">
+                  {formatCurrency(advanceAmount)}
+                </span>
+              </div>
+              <div className="mt-2 text-[11px] text-amber-800 bg-amber-50/70 rounded-lg p-2 border border-amber-200/60">
+                <span className="font-bold">⚠️ Notice:</span> Booking amount is non refundable if you cancel anything. Date change / rescheduling is allowed.
               </div>
 
               {!meetsMinimum && (

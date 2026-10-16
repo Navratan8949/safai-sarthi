@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { loadCart, saveCart, loadPincode, savePincode } from '@/utils/cart';
-import { calculateSubtotal, calculateCouponDiscount, calculateFinalTotal, calculateAdditionalCharges } from '@/utils/pricing';
+import { calculateSubtotal, calculateCouponDiscount, calculateFinalTotal, calculateAdditionalCharges, calculateAdvanceAmount, calculateRemainingBalance } from '@/utils/pricing';
 import { coupons } from '@/data/coupons';
 import { minimumOrderValue } from '@/config/business';
 import { useLocation } from '@/context/LocationContext';
@@ -129,6 +129,8 @@ export function CartProvider({ children }) {
   const discount = calculateCouponDiscount(subtotal, coupon);
   const additionalCharges = calculateAdditionalCharges();
   const total = calculateFinalTotal(cartItems, coupon);
+  const advanceAmount = calculateAdvanceAmount(total);
+  const remainingBalance = calculateRemainingBalance(total, advanceAmount);
   const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const remainingForMin = Math.max(0, minimumOrderValue - subtotal);
   const meetsMinimum = subtotal >= minimumOrderValue;
@@ -155,6 +157,8 @@ export function CartProvider({ children }) {
     discount,
     additionalCharges,
     total,
+    advanceAmount,
+    remainingBalance,
     itemCount,
     remainingForMin,
     meetsMinimum,

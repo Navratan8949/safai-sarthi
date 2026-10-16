@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MessageCircle, Copy, Check, ArrowRight, ArrowLeft, AlertCircle, ShieldCheck, Navigation, Loader2, MapPin } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
-import { formatCurrency, calculateItemTotal } from '@/utils/pricing';
+import { formatCurrency, calculateItemTotal, calculateAdvanceAmount, calculateRemainingBalance } from '@/utils/pricing';
 import { validateName, validateMobile, validateRequired, validatePincode } from '@/utils/validation';
 import { serviceablePincodes } from '@/data/pincodes';
 import { generateBookingWhatsAppMessage, generateWhatsAppUrl } from '@/utils/whatsapp';
@@ -28,12 +28,17 @@ export default function CheckoutPage() {
     subtotal,
     additionalCharges,
     total,
+    advanceAmount: cartAdvanceAmount,
+    remainingBalance: cartRemainingBalance,
     pincode: cartPincode,
     userLocation,
     detectLocation,
     isDetectingLocation,
     mounted,
   } = useCart();
+
+  const advanceAmount = cartAdvanceAmount ?? calculateAdvanceAmount(total);
+  const remainingBalance = cartRemainingBalance ?? calculateRemainingBalance(total, advanceAmount);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -155,11 +160,13 @@ export default function CheckoutPage() {
       subtotal,
       additionalCharges,
       total,
+      advanceAmount,
+      remainingBalance,
       preference: { date: formData.date, time: formData.time },
       notes: formData.instructions,
     });
 
-    setConfirmation({ reference, message, total });
+    setConfirmation({ reference, message, total, advanceAmount, remainingBalance });
   };
 
   const handleOpenWhatsApp = () => {
@@ -190,15 +197,50 @@ export default function CheckoutPage() {
                 Please review the message and press Send to submit it.
               </p>
 
-              <div className="mt-6 rounded-xl bg-sky-50 border border-sky-200 p-4 text-left">
-                <div className="flex justify-between items-center mb-3">
+              <div className="mt-6 rounded-2xl bg-sky-50/70 border border-sky-200 p-5 text-left space-y-3">
+                <div className="flex justify-between items-center pb-2.5 border-b border-sky-200">
                   <span className="text-xs font-bold text-ink-light uppercase tracking-wide">Booking Reference</span>
                   <span className="text-sm font-bold text-sky-600">{confirmation.reference}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-xs font-bold text-ink-light uppercase tracking-wide">Estimated Total</span>
-                  <span className="text-lg font-bold text-navy">{formatCurrency(confirmation.total)}</span>
+                  <span className="text-xs font-semibold text-ink-light">Estimated Total</span>
+                  <span className="text-base font-bold text-navy">{formatCurrency(confirmation.total)}</span>
                 </div>
+                <div className="flex justify-between items-center rounded-xl bg-emerald-100/80 px-3.5 py-2.5 border border-emerald-300">
+                  <div>
+                    <span className="text-xs font-bold text-emerald-950 block">Advance Booking Amount</span>
+                    <span className="text-[11px] text-emerald-800">Payable via QR code sent on WhatsApp</span>
+                  </div>
+                  <span className="text-lg font-black text-emerald-800">{formatCurrency(confirmation.advanceAmount)}</span>
+                </div>
+                <div className="flex justify-between items-center px-1">
+                  <div>
+                    <span className="text-xs font-medium text-ink-light block">Remaining Balance</span>
+                    <span className="text-[11px] text-ink-light">Pay directly after service completion</span>
+                  </div>
+                  <span className="text-sm font-bold text-navy">{formatCurrency(confirmation.remainingBalance)}</span>
+                </div>
+                {formData.instructions && (
+                  <div className="pt-2.5 border-t border-sky-200 text-xs">
+                    <span className="text-[11px] font-bold text-ink-light block uppercase tracking-wide">Additional Instructions</span>
+                    <p className="text-xs text-navy mt-1 bg-white/80 p-2.5 rounded-lg border border-sky-200/60 font-medium whitespace-pre-wrap">{formData.instructions}</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Policy alert on confirmation */}
+              <div className="mt-4 rounded-xl bg-amber-50 border-2 border-amber-300/90 p-4 text-left space-y-1.5">
+                <div className="font-bold text-amber-950 flex items-center gap-1.5 text-xs">
+                  <AlertCircle className="h-4 w-4 text-amber-600 flex-shrink-0" />
+                  <span>Important Cancellation & Rescheduling Notice:</span>
+                </div>
+                <p className="text-xs font-bold text-amber-950">
+                  Booking amount is non refundable if you cancel anything.
+                </p>
+                <p className="text-amber-800 leading-relaxed text-[11px]">
+                  • <strong>Cancellation:</strong> Cancellation me amount refund nahi hoga.<br />
+                  • <strong>Date Change:</strong> Aap apni date change / reschedule karwa sakte ho without losing your booking deposit.
+                </p>
               </div>
 
               <div className="mt-6 space-y-3">
@@ -423,12 +465,18 @@ export default function CheckoutPage() {
             </div>
 
             <div className="card-base p-6">
-              <h2 className="text-lg font-bold text-navy mb-4">Special Instructions (Optional)</h2>
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-lg font-bold text-navy">Additional Instructions (Optional)</h2>
+                <span className="text-[11px] font-semibold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-200">Sent on WhatsApp</span>
+              </div>
+              <p className="text-xs text-ink-light mb-3">
+                Add specific directions, parking or lift details, pets at home, delicate surfaces, or custom requests for the cleaning squad.
+              </p>
               <textarea
                 value={formData.instructions}
                 onChange={(e) => handleChange('instructions', e.target.value)}
-                className="input-base min-h-[100px] resize-y"
-                placeholder="Add parking details, floor/lift information, access instructions, pets, delicate surfaces, or any other requirements."
+                className="input-base min-h-[105px] resize-y"
+                placeholder="Example: Flat 402, 4th Floor (lift available). Please focus especially on kitchen chimney & balcony rails. Dog at home will be kept in room."
               />
             </div>
 
@@ -441,7 +489,7 @@ export default function CheckoutPage() {
                   className="mt-1 h-5 w-5 rounded border-border text-sky-500 focus:ring-sky-200"
                 />
                 <span className="text-sm text-ink leading-relaxed">
-                  I agree to the <Link href="/privacy-policy" className="text-sky-500 font-semibold hover:underline">Privacy Policy</Link> and understand that my booking details will be shared with SafaiSaarthi through WhatsApp for booking coordination.
+                  I agree to the <Link href="/privacy-policy" className="text-sky-500 font-semibold hover:underline">Privacy Policy</Link>, <Link href="/terms" className="text-sky-500 font-semibold hover:underline">Terms of Service</Link>, and <Link href="/cancellation-policy" className="text-sky-500 font-semibold hover:underline">Cancellation Policy</Link>, and understand that my booking details will be shared with SafaiSaarthi via WhatsApp.
                 </span>
               </label>
               {errors.consent && (
@@ -491,14 +539,60 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              <button onClick={handleSubmit} className="mt-6 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3.5 text-sm font-bold text-white transition-all hover:bg-[#1DA851] hover:shadow-lg active:scale-[0.98]">
+              {/* Advance Booking Amount and Remaining Balance Breakdown */}
+              <div className="mt-4 rounded-xl bg-gradient-to-br from-sky-50/90 to-emerald-50/80 border border-sky-200 p-3.5 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="text-xs font-bold text-navy block">Advance Booking Amount</span>
+                    <span className="text-[11px] text-sky-700 font-medium">Payable via QR code to confirm slot</span>
+                  </div>
+                  <span className="text-base font-black text-emerald-700 bg-white px-2.5 py-1 rounded-lg border border-emerald-300 shadow-2xs">
+                    {formatCurrency(advanceAmount)}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between pt-2 border-t border-sky-200/60 text-xs">
+                  <div>
+                    <span className="font-medium text-ink-light block">Remaining Balance</span>
+                    <span className="text-[11px] text-ink-light">Pay after service completion</span>
+                  </div>
+                  <span className="font-bold text-navy text-sm">
+                    {formatCurrency(remainingBalance)}
+                  </span>
+                </div>
+              </div>
+
+              {/* Policy Notice directly below checkout payment */}
+              <div className="mt-3 rounded-xl bg-amber-50 border-2 border-amber-300/90 p-3 text-left space-y-1">
+                <p className="font-bold text-amber-950 flex items-center gap-1.5 text-xs">
+                  <AlertCircle className="h-4 w-4 text-amber-600 flex-shrink-0" />
+                  <span>Important Policy:</span>
+                </p>
+                <p className="text-xs font-bold text-amber-950">
+                  Booking amount is non refundable if you cancel anything.
+                </p>
+                <p className="text-amber-900 text-[11px] leading-relaxed">
+                  Cancellation me amount refund nahi hoga. Aap apni booking date change / reschedule karwa sakte ho.
+                </p>
+              </div>
+
+              <button onClick={handleSubmit} className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3.5 text-sm font-bold text-white transition-all hover:bg-[#1DA851] hover:shadow-lg active:scale-[0.98]">
                 <MessageCircle className="h-5 w-5" />
                 Continue on WhatsApp
               </button>
 
-              <div className="mt-3 flex items-center justify-center gap-2 text-xs text-ink-light">
-                <ShieldCheck className="h-3.5 w-3.5 text-sky-500" />
-                No payment required now
+              {/* Payment Flow Explanation */}
+              <div className="mt-4 rounded-xl bg-slate-50 border border-slate-200/80 p-3.5 text-left text-xs space-y-2">
+                <p className="font-bold text-navy flex items-center gap-1.5 text-xs">
+                  <ShieldCheck className="h-4 w-4 text-emerald-600 flex-shrink-0" />
+                  How Payment Works:
+                </p>
+                <ol className="text-ink-light space-y-1.5 pl-4 list-decimal text-[11px] leading-relaxed">
+                  <li><strong>Submit Request:</strong> Your order details and additional instructions will be shared on WhatsApp.</li>
+                  <li><strong>Pay Advance via QR:</strong> Our executive will send a payment QR code for the {formatCurrency(advanceAmount)} advance booking amount.</li>
+                  <li><strong>Visit & Work:</strong> Once the advance is received, our cleaning team visits your premises on the scheduled date & completes the work.</li>
+                  <li><strong>Pay Remaining Balance:</strong> Verify the cleaning work and pay the remaining balance of {formatCurrency(remainingBalance)} directly on-site.</li>
+                </ol>
               </div>
             </div>
           </div>

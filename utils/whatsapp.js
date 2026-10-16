@@ -1,4 +1,4 @@
-import { formatCurrency } from './pricing';
+import { formatCurrency, calculateAdvanceAmount, calculateRemainingBalance } from './pricing';
 
 export function generateBookingWhatsAppMessage(data) {
   const {
@@ -9,31 +9,36 @@ export function generateBookingWhatsAppMessage(data) {
     subtotal,
     additionalCharges,
     total,
+    advanceAmount: customAdvance,
+    remainingBalance: customRemaining,
     preference,
     notes,
   } = data;
 
+  const advanceAmount = customAdvance !== undefined ? customAdvance : calculateAdvanceAmount(total);
+  const remainingBalance = customRemaining !== undefined ? customRemaining : calculateRemainingBalance(total, advanceAmount);
+
   let message = `Hello SafaiSaarthi!\n\n`;
   message += `I would like to request a cleaning booking.\n\n`;
-  message += `BOOKING REFERENCE:\n${reference}\n\n`;
+  message += `BOOKING REFERENCE: ${reference}\n\n`;
 
-  message += `CUSTOMER DETAILS\n\n`;
-  message += `Name: ${customer.name}\n`;
-  message += `Mobile: ${customer.mobile}\n\n`;
+  message += `CUSTOMER DETAILS\n`;
+  message += `• Name: ${customer.name}\n`;
+  message += `• Mobile: ${customer.mobile}\n\n`;
 
-  message += `SERVICE ADDRESS\n\n`;
-  message += `House/Flat: ${address.house}\n`;
-  message += `Building/Street: ${address.street}\n`;
-  message += `Area/Locality: ${address.area}\n`;
-  message += `Landmark: ${address.landmark || 'N/A'}\n`;
-  message += `Pincode: ${address.pincode}\n`;
-  message += `City: Jaipur\n`;
+  message += `SERVICE ADDRESS\n`;
+  message += `• House/Flat: ${address.house}\n`;
+  message += `• Building/Street: ${address.street}\n`;
+  message += `• Area/Locality: ${address.area}\n`;
+  message += `• Landmark: ${address.landmark || 'N/A'}\n`;
+  message += `• Pincode: ${address.pincode}\n`;
+  message += `• City: Jaipur\n`;
   if (address.mapsUrl) {
-    message += `📍 Live Location / Map: ${address.mapsUrl}\n`;
+    message += `• 📍 Location: ${address.mapsUrl}\n`;
   }
   message += `\n`;
 
-  message += `SELECTED SERVICES\n\n`;
+  message += `SELECTED SERVICES\n`;
   items.forEach((item, i) => {
     const addOnNames = (item.selectedAddOns || [])
       .map((a) => a.name)
@@ -51,21 +56,37 @@ export function generateBookingWhatsAppMessage(data) {
     message += `   Price: ${lineTotal}\n\n`;
   });
 
-  message += `ORDER SUMMARY\n\n`;
-  message += `Subtotal: ${formatCurrency(subtotal)}\n`;
-  message += `Additional Charges: ${formatCurrency(additionalCharges)}\n`;
-  message += `Estimated Total: ${formatCurrency(total)}\n\n`;
+  message += `ORDER & PAYMENT BREAKDOWN\n`;
+  message += `• Subtotal: ${formatCurrency(subtotal)}\n`;
+  if (additionalCharges > 0) {
+    message += `• Additional Charges: ${formatCurrency(additionalCharges)}\n`;
+  }
+  message += `• Estimated Total: ${formatCurrency(total)}\n`;
+  message += `• ADVANCE BOOKING AMOUNT: ${formatCurrency(advanceAmount)} (Payable via QR code)\n`;
+  message += `• REMAINING BALANCE: ${formatCurrency(remainingBalance)} (Payable on-site after service completion)\n\n`;
 
-  message += `BOOKING PREFERENCE\n\n`;
-  message += `Preferred Date: ${preference.date}\n`;
-  message += `Preferred Time: ${preference.time}\n\n`;
+  message += `BOOKING PREFERENCE\n`;
+  message += `• Preferred Date: ${preference.date}\n`;
+  message += `• Preferred Time: ${preference.time}\n\n`;
 
-  if (notes) {
-    message += `ADDITIONAL INSTRUCTIONS:\n${notes}\n\n`;
+  if (notes && notes.trim()) {
+    message += `ADDITIONAL INSTRUCTIONS\n`;
+    message += `${notes.trim()}\n\n`;
   }
 
-  message += `Please confirm service availability and final booking details.\n\n`;
-  message += `Thank you!`;
+  message += `PAYMENT & SERVICE WORKFLOW:\n`;
+  message += `1. Advance Booking Amount: ${formatCurrency(advanceAmount)}\n`;
+  message += `   👉 Please send the payment QR code to pay the advance booking amount.\n`;
+  message += `2. Service Visit & Work:\n`;
+  message += `   👉 Once advance is received, our cleaning team visits your premises on the scheduled date & time to complete the work.\n`;
+  message += `3. Remaining Balance: ${formatCurrency(remainingBalance)}\n`;
+  message += `   👉 Remaining balance will be collected on-site after the cleaning work is completed.\n\n`;
+
+  message += `IMPORTANT TERMS & CANCELLATION POLICY:\n`;
+  message += `⚠️ Booking amount is non-refundable if you cancel anything.\n`;
+  message += `🔄 Cancellation me amount refund nahi hoga, aap date change / reschedule karwa sakte ho.\n\n`;
+
+  message += `Please send the payment QR code to proceed. Thank you!`;
 
   return message;
 }

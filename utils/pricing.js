@@ -50,3 +50,34 @@ export function calculateFinalTotal(items, coupon) {
   const total = subtotal - discount + additional;
   return Math.max(0, Math.round(total));
 }
+
+/**
+ * Calculates advance booking amount based on order total:
+ * - Total < ₹300: ₹99
+ * - Total < ₹500 (₹300 - ₹499): ₹149
+ * - Total ₹500 - ₹1500: ₹349
+ * - Total > ₹1500: ₹499
+ */
+export function calculateAdvanceAmount(total) {
+  const num = Number(total) || 0;
+  if (num <= 0) return 0;
+
+  let advance = 499;
+  if (num < 300) {
+    advance = 99;
+  } else if (num < 500) {
+    advance = 149;
+  } else if (num <= 1500) {
+    advance = 349;
+  } else {
+    advance = 499;
+  }
+
+  return Math.min(advance, num);
+}
+
+export function calculateRemainingBalance(total, advance) {
+  const numTotal = Number(total) || 0;
+  const numAdvance = advance !== undefined ? Number(advance) : calculateAdvanceAmount(numTotal);
+  return Math.max(0, numTotal - numAdvance);
+}

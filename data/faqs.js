@@ -37,7 +37,7 @@ export const faqs = [
   {
     category: 'Pricing',
     question: 'Is there a minimum order value?',
-    answer: 'Yes, residential bookings have a minimum order value of ₹399. You can add more services to reach the minimum.',
+    answer: 'Yes, residential bookings have a minimum order value of ₹99. You can add more services to reach the minimum.',
   },
   {
     category: 'Service Areas',
@@ -52,7 +52,7 @@ export const faqs = [
   {
     category: 'WhatsApp',
     question: 'Why do I need to send a WhatsApp message?',
-    answer: 'Since we do not process payments or bookings online, WhatsApp is how your booking request reaches our team. After you send the message, our team will confirm details with you directly.',
+    answer: 'Since we do not process payments or bookings directly on the website, WhatsApp is how your booking request reaches our team. After you send the message, our team will confirm details with you directly.',
   },
   {
     category: 'WhatsApp',
@@ -72,16 +72,16 @@ export const faqs = [
   {
     category: 'Cancellation',
     question: 'Can I cancel my booking?',
-    answer: 'Since bookings are confirmed via WhatsApp by our team, cancellation requests should be communicated through the same WhatsApp conversation. Please refer to our Cancellation Policy for details.',
+    answer: 'Booking amount is non refundable if you cancel anything. Cancellation me amount refund nahi hoga. However, aap apni booking date change / reschedule karva sakte ho free of cost via WhatsApp.',
   },
   {
     category: 'Rescheduling',
     question: 'Can I reschedule my service?',
-    answer: 'Rescheduling requests can be made through WhatsApp. Please inform our team as early as possible. Refer to our Cancellation Policy for rescheduling terms.',
+    answer: 'Yes! Cancellation par refund nahi hoga, lekin aap apni booking date and time slot free of charge reschedule karva sakte ho. Simply inform our team on WhatsApp at least 4 hours before your slot.',
   },
   {
     category: 'Payment',
     question: 'How do I pay for the service?',
-    answer: 'Payment terms are discussed and finalized by our team when confirming your booking via WhatsApp. We do not process any payments on this website.',
+    answer: 'After you submit your order and additional instructions, our executive sends a QR code on WhatsApp for the advance booking amount (₹99 for <₹300, ₹149 for below ₹500, ₹349 for ₹500–₹1,500, or ₹499 for above ₹1,500). Once the advance is received, our cleaning team visits your premises, completes the work, and you pay the remaining balance directly on-site.',
   },
 ];

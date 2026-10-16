@@ -20,7 +20,7 @@ export const navLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
-export const minimumOrderValue = 399;
+export const minimumOrderValue = 99;
 
 export const additionalCharges = {
   label: "Convenience Fee",
