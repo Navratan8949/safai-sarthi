@@ -140,10 +140,10 @@ export function Header() {
 
       {/* Main Sticky Header */}
       <header
-        className={`sticky top-0 z-40 transition-all duration-200 ${
+        className={`sticky top-0 z-40 transition-all duration-300 navbar-glass ${
           scrolled
-            ? "bg-white/98 shadow-sm shadow-sky-900/5 border-b border-sky-100 py-2"
-            : "bg-white border-b border-slate-100 py-2.5 lg:py-3"
+            ? "shadow-md shadow-slate-900/5 border-b border-slate-200/90 py-2"
+            : "border-b border-slate-200/70 py-2.5 lg:py-3"
         }`}
       >
         <div className="container-max flex items-center justify-between gap-4">

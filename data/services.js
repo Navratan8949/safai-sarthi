@@ -213,7 +213,7 @@ export const services = [
       "Move-in / move-out empty apartment deep clean for unfurnished and furnished flats (600 to 2,050 Sq Feet).",
     description:
       "Specialized vacant flat deep cleaning before moving in or after shifting out. Thorough descaling of bathrooms, empty kitchen cabinets inside & out, floor scrubbing, window channels, and spiderweb clearance across 600 to 2,050 Sq Feet flats.",
-    image: "/images/before-after-clean-house.png",
+    image: "/images/vacant-home-cleaning.jpg",
     price: 3599,
     originalPrice: 3999,
     discountPercent: 10,
@@ -359,7 +359,7 @@ export const services = [
       "Heavy-duty residential villa & duplex deep cleaning across 2,000 to 8,000 Sq Feet.",
     description:
       "Multi-story independent bungalow and luxury villa deep cleaning with multi-member team, high-pressure washers, rotary floor scrubbers, glass squeegees, and terrace cleaning across 2,000 to 8,000 Sq Feet.",
-    image: "/images/3d-residential-home.jpg",
+    image: "/images/villa-cleaning.jpg",
     price: 9999,
     originalPrice: 11999,
     discountPercent: 17,
@@ -451,7 +451,7 @@ export const services = [
       "Living room deep clean with furniture dusting, glass wipedown & floor buffing.",
     description:
       "Complete living area and drawing hall deep cleaning. Dusting intricate display units, sofas, windows, chandeliers, light fittings, and floor sanitization.",
-    image: "/images/hero-cleaner-mascot.jpg",
+    image: "/images/living-room-cleaning.jpg",
     price: 999,
     originalPrice: 1099,
     discountPercent: 10,
@@ -834,7 +834,7 @@ export const services = [
       "Open rooftop terrace pressure washing for Small (200 Sq Ft), Medium (500 Sq Ft) & Large (1000 Sq Ft).",
     description:
       "Heavy-duty rooftop and terrace pressure washing. Removes embedded dirt, moss, dried sludge, and unclogs water drain openings across 200, 500, and 1,000 Sq Feet terraces.",
-    image: "/images/other-cleaning.jpg",
+    image: "/images/water-tank-cleaning.jpg",
     price: 1799,
     originalPrice: 1999,
     discountPercent: 10,
@@ -1020,7 +1020,7 @@ export const services = [
       "Standard chimney caustic degreasing, motor wipe & stainless steel buffing (₹350).",
     description:
       "Targeted kitchen chimney cleaning. Disassembles baffle/mesh filters, soaks them in heavy-duty degreaser, wipes internal blower blades, and polishes the outer hood.",
-    image: "/images/Cleaner-Kitchen.png",
+    image: "/images/chimney-hob-cleaning.jpg",
     price: 350,
     originalPrice: 350,
     discountPercent: 0,
@@ -1074,7 +1074,7 @@ export const services = [
       "Antibacterial sanitization for Single Door (₹349), Double Door (₹499) & Side by Side Triple Door (₹599).",
     description:
       "Hygienic refrigerator deep cleaning. Removable shelves are washed, gasket mold sanitized, food-safe deodorizer applied, and condenser coils vacuumed.",
-    image: "/images/3d-eco-chemicals.jpg",
+    image: "/images/Cleaner-Kitchen.png",
     price: 349,
     originalPrice: 349,
     discountPercent: 0,
@@ -1120,7 +1120,7 @@ export const services = [
       "Heavy grease removal & blade scrubbing: Express (₹89), Elite (₹149), Exclusive (₹249).",
     description:
       "Clear sticky oil and greasy dirt from exhaust fans in kitchens and bathrooms. Restores proper suction power and air circulation.",
-    image: "/images/3d-machine-scrubber.jpg",
+    image: "/images/chimney-hob-cleaning.jpg",
     price: 89,
     originalPrice: 89,
     discountPercent: 0,
@@ -1165,7 +1165,7 @@ export const services = [
       "Ceiling fan cleaning (₹59-₹79), exhaust fans (₹59-₹89) & kitchen appliance combos (₹799-₹1,299).",
     description:
       "Quick individual mini cleaning services or combined appliance packages. Pick ceiling fan blades, exhaust fans, or full kitchen appliance bundles with fridge.",
-    image: "/images/cleaner-cutout.jpg",
+    image: "/images/window-cleaning.jpg",
     price: 59,
     originalPrice: 59,
     discountPercent: 0,
@@ -1211,7 +1211,7 @@ export const services = [
       "Dining table & chairs (4 to 10 seater: ₹199-₹499) and Dining + Sofa combos (₹799-₹899).",
     description:
       "Complete dining set rejuvenation. Fabric chair shampoo extraction, wooden/metal frame wipe-down, glass tabletop descaling, and combo packages with living room sofas.",
-    image: "/images/sofa-cleaning.jpg",
+    image: "/images/dining-chair-cleaning.jpg",
     price: 199,
     originalPrice: 199,
     discountPercent: 0,
