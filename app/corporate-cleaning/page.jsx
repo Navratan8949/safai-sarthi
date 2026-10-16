@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { SectionHeading } from "@/components/SectionHeading";
 import { CTASection } from "@/components/CTASection";
+import { business } from "@/config/business";
 
 export const metadata = {
   title: "Corporate Cleaning Services in Jaipur | SafaiSaarthi",
@@ -286,7 +287,7 @@ export default function CorporateCleaningPage() {
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <a
-                  href="https://wa.me/919694032100?text=Hi%20SafaiSaarthi,%20I%20want%20to%20enquire%20about%20corporate%20cleaning%20services%20in%20Jaipur."
+                  href={`https://wa.me/${business.whatsappNumber}?text=Hi%20SafaiSaarthi,%20I%20want%20to%20enquire%20about%20corporate%20cleaning%20services%20in%20Jaipur.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-secondary"

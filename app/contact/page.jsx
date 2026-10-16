@@ -10,8 +10,8 @@ export const metadata = {
 
 export default function ContactPage() {
   const contactItems = [
-    { icon: MessageCircle, label: 'WhatsApp', value: business.whatsappNumber === 'REPLACE_WITH_OFFICIAL_NUMBER' ? 'Coming soon' : business.whatsappNumber, action: true },
-    { icon: Phone, label: 'Phone', value: business.phone === 'REPLACE_WITH_OFFICIAL_NUMBER' ? 'Coming soon' : business.phone },
+    { icon: MessageCircle, label: 'WhatsApp', value: business.phone, action: true },
+    { icon: Phone, label: 'Phone', value: business.phone },
     { icon: Mail, label: 'Email', value: business.email === 'REPLACE_WITH_OFFICIAL_EMAIL' ? 'Coming soon' : business.email },
     { icon: Clock, label: 'Business Hours', value: business.hours },
     { icon: MapPin, label: 'Service Area', value: business.serviceArea },

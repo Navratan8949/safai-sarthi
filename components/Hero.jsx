@@ -12,6 +12,7 @@ import {
   Zap,
   MessageCircle,
 } from "lucide-react";
+import { business } from "@/config/business";
 
 export function Hero() {
   return (
@@ -74,7 +75,7 @@ export function Hero() {
               </Link>
 
               <a
-                href="https://wa.me/?text=Hi%20SafaiSaarthi,%20I%20want%20to%20book%20a%20cleaning%20service%20in%20Jaipur"
+                href={`https://wa.me/${business.whatsappNumber}?text=Hi%20SafaiSaarthi,%20I%20want%20to%20book%20a%20cleaning%20service%20in%20Jaipur`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-emerald-500/30 bg-emerald-50/80 px-6 py-3.5 text-sm font-bold text-emerald-800 transition-all duration-300 hover:bg-emerald-100 hover:border-emerald-500 hover:-translate-y-0.5 active:translate-y-0"
@@ -113,7 +114,7 @@ export function Hero() {
               {/* Main 3D Mascot Character Stage */}
               <div className="relative overflow-hidden aspect-square flex items-center justify-center">
                 <Image
-                  src="/images/hero-clearn.png"
+                  src="/images/hero-cleaner.png"
                   alt="SafaiSaarthi 3D Professional Cleaner Squad Leader with Industrial Equipment"
                   fill
                   priority

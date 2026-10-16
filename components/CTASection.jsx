@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Sparkles, MessageCircle, Star } from 'lucide-react';
+import { business } from '@/config/business';
 
 export function CTASection() {
   return (
@@ -50,7 +51,7 @@ export function CTASection() {
               </Link>
 
               <a 
-                href="https://wa.me/?text=Hi%20SafaiSaarthi,%20I%20want%20to%20book%20a%20cleaning%20service"
+                href={`https://wa.me/${business.whatsappNumber}?text=Hi%20SafaiSaarthi,%20I%20want%20to%20book%20a%20cleaning%20service`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-emerald-400/40 bg-emerald-500/20 px-7 py-4 text-sm font-bold text-emerald-200 backdrop-blur transition-all hover:bg-emerald-500/30 hover:border-emerald-400 hover:-translate-y-0.5 active:translate-y-0"
