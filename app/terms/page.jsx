@@ -1,16 +1,16 @@
 import { SectionHeading } from '@/components/SectionHeading';
 import Link from 'next/link';
 
-export const metadata = { title: 'Terms of Service | SafaiSaarthi' };
+export const metadata = { title: 'Terms & Conditions | SafaiSaarthi' };
 
 export default function TermsPage() {
   return (
     <div className="py-16 lg:py-24">
       <div className="container-max max-w-3xl">
-        <SectionHeading eyebrow="Legal" title="Terms of Service" />
+        <SectionHeading eyebrow="Legal" title="Terms & Conditions" />
         <div className="mt-8 prose prose-sm max-w-none text-ink-light space-y-6">
           <p>
-            Welcome to SafaiSaarthi. By accessing our website, requesting a service, or communicating with our booking team, you agree to these Terms of Service.
+            Welcome to SafaiSaarthi. By accessing our website, requesting a service, or communicating with our booking team, you agree to these Terms & Conditions.
           </p>
 
           <div className="rounded-xl bg-amber-50 border-2 border-amber-300/80 p-4 text-amber-900 text-xs leading-relaxed space-y-1.5 shadow-2xs">

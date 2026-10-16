@@ -16,7 +16,6 @@ export const navLinks = [
   // { label: 'Rate Card', href: '/rate-card' },
   { label: "Corporate", href: "/corporate-cleaning" },
   { label: "About", href: "/about" },
-  { label: "How It Works", href: "/#how-it-works" },
   { label: "Contact", href: "/contact" },
 ];
 

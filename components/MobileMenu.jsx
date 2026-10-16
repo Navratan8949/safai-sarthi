@@ -10,7 +10,6 @@ export function MobileMenu({ open, onClose }) {
     { label: 'About', href: '/about', icon: Info },
     { label: 'Services', href: '/services', icon: Sparkles },
     { label: 'Corporate Cleaning', href: '/corporate-cleaning', icon: Building },
-    { label: 'How It Works', href: '/#how-it-works', icon: MapPin },
     { label: 'Contact', href: '/contact', icon: Phone },
   ];
 

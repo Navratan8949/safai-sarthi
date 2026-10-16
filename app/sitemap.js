@@ -14,6 +14,7 @@ export default function sitemap() {
     '/contact',
     '/privacy-policy',
     '/terms',
+    '/terms-and-conditions',
     '/cancellation-policy',
     '/refund-policy',
   ];
