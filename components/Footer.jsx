@@ -36,6 +36,8 @@ export function Footer() {
     "Vaishali Nagar",
     "Mansarovar",
     "Malviya Nagar",
+    "Patrakar Colony",
+    "Civil Lines",
     "Jagatpura",
     "C-Scheme",
     "Raja Park",

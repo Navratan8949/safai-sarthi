@@ -66,8 +66,10 @@ export function PincodeChecker() {
 
   const popularAreas = [
     { name: 'Malviya Nagar', pin: '302017' },
-    { name: 'Vaishali Nagar', pin: '302021' },
+    { name: 'Patrakar Colony', pin: '302020' },
+    { name: 'Civil Lines', pin: '302006' },
     { name: 'Mansarovar', pin: '302020' },
+    { name: 'Vaishali Nagar', pin: '302021' },
     { name: 'C-Scheme', pin: '302001' },
     { name: 'Raja Park', pin: '302004' },
     { name: 'Jagatpura', pin: '302017' },

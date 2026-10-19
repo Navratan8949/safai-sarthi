@@ -115,7 +115,7 @@ export function LocationPromptModal() {
         <div className="mt-6 pt-5 border-t border-slate-100">
           <p className="text-xs font-bold text-slate-400 mb-2">Or select your Jaipur locality:</p>
           <div className="flex flex-wrap gap-1.5">
-            {jaipurLocalities.slice(0, 6).map((loc) => (
+            {jaipurLocalities.slice(0, 8).map((loc) => (
               <button
                 key={loc.name}
                 type="button"

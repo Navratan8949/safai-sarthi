@@ -61,7 +61,9 @@ export default function AboutPage() {
 
   const serviceAreas = [
     'Mansarovar',
+    'Patrakar Colony',
     'Malviya Nagar',
+    'Civil Lines',
     'Vaishali Nagar',
     'C-Scheme',
     'Jagatpura',
@@ -73,7 +75,6 @@ export default function AboutPage() {
     'Chitrakoot',
     'Sodala',
     'Ajmer Road',
-    'Civil Lines',
   ];
 
   return (
