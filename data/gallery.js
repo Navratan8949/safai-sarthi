@@ -67,6 +67,17 @@ export const galleryItems = [
   },
   {
     id: "gallery-7",
+    title: "Dev Raj Facility Management Certified Service Seal",
+    subtitle: "4-Stage Deep Cleaning & Hygiene Protocol Hallmark",
+    category: "Certifications",
+    image: "/images/gallery/7.jpeg",
+    tag: "Quality Certified Seal",
+    location: "DRFM Quality Assurance • Jaipur",
+    description:
+      "Official service insignia of DEV RAJ FACILITY MANAGEMENT symbolising mechanized dusting, glass & floor squeegee cleaning, foam scrub sanitization, and hygienic glove care across Jaipur.",
+  },
+  {
+    id: "gallery-8",
     title: "Hard Water Groundwater Salt & Scale Removal",
     subtitle: "Acid-Free Bathroom Tile & Glass Descaling",
     category: "Residential Deep Clean",
@@ -76,17 +87,6 @@ export const galleryItems = [
     description:
       "Scientific non-acidic descaling agents removing years of chalky groundwater white salt deposits from glass partitions, tiles, and chrome taps without damaging grout.",
   },
-  {
-    id: "gallery-8",
-    title: "Complete Villa Floor Machine Buffing",
-    subtitle: "Restoring Mirror-Like Vitrified & Marble Shine",
-    category: "Residential Deep Clean",
-    image: "/images/before-after-clean-house.png",
-    tag: "Before & After",
-    location: "Civil Lines, Jaipur",
-    description:
-      "High-speed single disc rotary machine buffing with diamond-impregnated polishing pads, eliminating ingrained construction dust and restoring brilliant floor gloss.",
-  },
 ];
 
 export const galleryCategories = [
@@ -95,4 +95,5 @@ export const galleryCategories = [
   "Commercial & Institutes",
   "Townships & Societies",
   "Residential Deep Clean",
+  "Certifications",
 ];

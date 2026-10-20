@@ -139,7 +139,11 @@ export function GallerySection() {
                   alt={item.title}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-108"
+                  className={`transition-transform duration-700 group-hover:scale-105 ${
+                    item.category === "Certifications"
+                      ? "object-contain p-3"
+                      : "object-cover"
+                  }`}
                 />
 
                 {/* Ambient Top Shadow & Tag */}
