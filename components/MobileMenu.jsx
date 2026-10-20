@@ -1,15 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { X, Home, Sparkles, Building, Info, Phone, ShoppingCart, MapPin } from 'lucide-react';
+import { X, Home, Sparkles, Building, Info, Phone, ShoppingCart, MapPin, Images } from 'lucide-react';
 import { Logo } from './Logo';
 
 export function MobileMenu({ open, onClose }) {
   const links = [
     { label: 'Home', href: '/', icon: Home },
-    { label: 'About', href: '/about', icon: Info },
     { label: 'Services', href: '/services', icon: Sparkles },
+    { label: 'Work Gallery', href: '/gallery', icon: Images },
     { label: 'Corporate Cleaning', href: '/corporate-cleaning', icon: Building },
+    { label: 'About', href: '/about', icon: Info },
     { label: 'Contact', href: '/contact', icon: Phone },
   ];
 

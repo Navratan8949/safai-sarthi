@@ -7,6 +7,7 @@ import { HowItWorks } from "@/components/HowItWorks";
 import { ServiceScopeSection } from "@/components/ServiceScopeSection";
 import { ResidentialCorporate } from "@/components/ResidentialCorporate";
 import { ReviewsSection } from "@/components/ReviewsSection";
+import { GallerySection } from "@/components/GallerySection";
 import { FAQSection } from "@/components/FAQAccordion";
 import { CTASection } from "@/components/CTASection";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -70,6 +71,7 @@ export default function Home() {
       <HowItWorks />
       <ServiceScopeSection />
       <ResidentialCorporate />
+      <GallerySection />
       <ReviewsSection />
       <FAQSection />
       <CTASection />

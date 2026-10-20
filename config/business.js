@@ -13,7 +13,7 @@ export const business = {
 export const navLinks = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
-  // { label: 'Rate Card', href: '/rate-card' },
+  { label: "Gallery", href: "/gallery" },
   { label: "Corporate", href: "/corporate-cleaning" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },

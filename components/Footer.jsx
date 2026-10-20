@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   MapPin,
   Phone,
@@ -9,6 +10,7 @@ import {
   Sparkles,
   CheckCircle2,
   ArrowUpRight,
+  Building2,
 } from "lucide-react";
 import { Logo } from "./Logo";
 import { business } from "@/config/business";
@@ -18,6 +20,7 @@ export function Footer() {
   const companyLinks = [
     { label: "Home", href: "/" },
     { label: "About Us", href: "/about" },
+    { label: "Work Gallery", href: "/#gallery" },
     { label: "Real Results & Reviews", href: "/reviews" },
     { label: "FAQs", href: "/faq" },
     { label: "Contact Us", href: "/contact" },
@@ -165,6 +168,33 @@ export function Footer() {
                 <span>Direct Call</span>
               </a>
             </div>
+
+            {/* Devraj Facility Management (DRFM) Parent Company Badge */}
+            <div className="pt-3">
+              <div className="rounded-2xl bg-gradient-to-r from-slate-900 via-purple-950/40 to-slate-900 p-3.5 border border-purple-500/40 shadow-lg shadow-purple-950/20 flex items-center gap-3.5 group hover:border-purple-400/60 transition-all">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-xl overflow-hidden bg-black border border-purple-400/60 shadow-inner flex items-center justify-center p-1">
+                  <Image
+                    src="/images/6.jpeg"
+                    alt="DRFM - DEVRAJ FACILITY MANAGEMENT"
+                    width={64}
+                    height={64}
+                    className="w-full h-full object-contain rounded-lg"
+                  />
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5 text-[10px] uppercase font-black tracking-widest text-purple-400">
+                    <Sparkles className="h-3 w-3 text-purple-400" />
+                    <span>A Venture of</span>
+                  </div>
+                  <h5 className="text-sm sm:text-base font-black text-white tracking-wide leading-tight mt-0.5">
+                    DEVRAJ FACILITY MANAGEMENT
+                  </h5>
+                  <p className="text-[11px] text-slate-300 leading-tight mt-0.5 font-medium">
+                    Complete Facility, Corporate &amp; Domestic Cleaning Solutions
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Column 1 (Mobile: Col 1 of 2, Desktop: 2 cols): Services */}
@@ -255,10 +285,21 @@ export function Footer() {
 
         {/* Bottom Credits & Copyright Bar */}
         <div className="mt-12 pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-2 gap-y-1 text-center sm:text-left">
-            <span>
-              &copy; {new Date().getFullYear()} SafaiSaarthi. All rights
-              reserved.
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-2.5 gap-y-1.5 text-center sm:text-left">
+            <span className="inline-flex items-center gap-1.5">
+              <span className="w-5 h-5 rounded-md overflow-hidden bg-black border border-purple-500/50 inline-flex items-center justify-center shrink-0">
+                <Image
+                  src="/images/6.jpeg"
+                  alt="DRFM"
+                  width={20}
+                  height={20}
+                  className="w-full h-full object-contain"
+                />
+              </span>
+              <span>
+                &copy; {new Date().getFullYear()} SafaiSaarthi. A Venture of{" "}
+                <strong className="text-white font-extrabold">DEVRAJ FACILITY MANAGEMENT</strong>. All rights reserved.
+              </span>
             </span>
             <span className="hidden sm:inline text-slate-600">•</span>
             <span>
