@@ -43,7 +43,7 @@ export function Hero() {
               Ghar Ki Chamak.
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 via-sky-600 to-indigo-600">
-                Saarthi Ka Sath.
+                Saarthi Ka Saath.
               </span>
             </h1>
 
