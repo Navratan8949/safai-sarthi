@@ -1,12 +1,181 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Clock, Check, X, Plus, Minus, ShoppingCart, ArrowRight, ShieldCheck, Info, AlertCircle } from 'lucide-react';
+import {
+  Clock,
+  Check,
+  X,
+  Plus,
+  Minus,
+  ShoppingCart,
+  ArrowRight,
+  ShieldCheck,
+  Info,
+  AlertCircle,
+  Sparkles,
+  CheckCircle2,
+} from 'lucide-react';
 import { getServiceBySlug, getRelatedServices } from '@/data/services';
 import { formatCurrency } from '@/utils/pricing';
 import { useCart } from '@/context/CartContext';
+
+function getVariantInclusions(service, variant) {
+  if (variant?.included && variant.included.length > 0) {
+    return variant.included;
+  }
+
+  // Full House Deep Cleaning
+  if (service?.slug === 'full-house-deep-cleaning' || service?.id === 'full-house-deep-cleaning') {
+    const tier = variant?.tier?.toLowerCase() || '';
+    if (tier.includes('express')) {
+      return [
+        `Rapid express deep clean (~${variant.duration}) covering ${variant.sqft || 'entire flat'}`,
+        'All bedrooms, living room & dining hall complete dusting, cobweb removal & vacuuming',
+        'Full bathroom descaling, WC stain removal, washbasin & chrome fixture polishing',
+        'Kitchen exterior cabinets, slab countertop, sink & wall tiles degreasing',
+        'Ceiling fan blades, light fixtures & switchboard wipe-down',
+        'Window glass panes, slider tracks vacuuming & balcony floor wash',
+        'Dust-proofing & dry/wet mopping across all floors',
+      ];
+    }
+    if (tier.includes('elite')) {
+      return [
+        `Intensive deep cleaning (~${variant.duration}) covering ${variant.sqft || 'entire flat'}`,
+        'Mechanized single-disc rotary machine scrubbing on marble, vitrified tile or granite floors',
+        'Everything in Express tier plus deep chemical stain treatment',
+        'Intensive bathroom descaling with specialized chemical solutions & hard-water scale removal',
+        'Kitchen grease breakdown: exterior cabinets, backsplash tiles, countertop & exhaust points',
+        'Window channels, mesh sliders, glass panes & balcony pressure wash',
+        'Detailed cleaning of doors, frames, baseboards, switchboards & ceiling fans',
+      ];
+    }
+    if (tier.includes('exclusive')) {
+      return [
+        `Exhaustive 360° deep detailing (~${variant.duration}) for ${variant.sqft || 'entire flat'}`,
+        'High-temperature steam sanitization for bathrooms, taps & high-touch surfaces',
+        'Mechanized single-disc rotary floor scrubbing & high-gloss buffing',
+        'Deep fabric dry vacuuming of sofas, mattresses, chairs & upholstery',
+        'Complete bathroom descaling, mirror polish, floor grout cleaning & disinfection',
+        'Deep kitchen degreasing, chimney exterior, countertop & sink sanitization',
+        'Windows, tracks, glass panes, grills & balcony complete wash',
+        'Eco-friendly premium finishing & whole-home odor neutralizer',
+        'Supervisor inspection & quality check before final handover',
+      ];
+    }
+  }
+
+  // Vacant Home Deep Cleaning
+  if (service?.slug === 'vacant-home-deep-cleaning') {
+    const isFurnished = variant?.name?.toLowerCase().includes('furnished');
+    return [
+      `Move-in / handover vacant flat deep cleaning (~${variant.duration}) for ${variant.sqft || 'empty flat'}`,
+      'Deep wiping inside & outside of all empty wardrobes, lofts, cupboards & drawers',
+      'Single-disc rotary machine floor scrubbing across marble, granite & vitrified tiles',
+      'Intensive bathroom chemical descaling, WC sanitization & chrome polish',
+      'Complete kitchen degreasing, empty trolleys, cabinet shelves & sink scrub',
+      'Window slider channels, mosquito mesh, glass panes & balcony floor pressure wash',
+      'Spiderweb clearance, ceiling fans, light fixtures, switchboards & door frames dusting',
+      isFurnished
+        ? 'Furnished furniture dusting, upholstery vacuuming & dust-proofing'
+        : 'End-to-end unfurnished vacant flat handover readiness',
+    ];
+  }
+
+  // Bungalow / Villa Deep Cleaning
+  if (service?.slug === 'villa-bungalow-deep-cleaning') {
+    return [
+      `Comprehensive multi-floor villa deep clean (~${variant.duration}) for ${variant.sqft || 'large villa'}`,
+      'Industrial single-disc rotary machine scrubbing on all floor areas (marble, tile, granite, wooden)',
+      'All bedrooms, living halls, dining areas, balconies & staircases deep cleaned',
+      'All washrooms & powder rooms chemical descaling, grout scrub & fixture polishing',
+      'Modular kitchen degreasing, exterior cabinets, slab, sink & utility area wash',
+      'High-reach architectural glass cleaning, window sliders & spiderweb removal',
+      'Balcony, verandah & porch floor pressure wash',
+      'Dedicated large squad with industrial wet/dry vacuum scrubbers',
+    ];
+  }
+
+  // Kitchen Deep Cleaning
+  if (service?.slug === 'kitchen-deep-cleaning') {
+    const name = variant?.name?.toLowerCase() || '';
+    if (name.includes('chimney')) {
+      return [
+        'Complete kitchen chimney filter degreasing & exterior canopy cleaning',
+        'Countertop slab, stainless steel sink & tile backsplash grease breakdown',
+        'Exterior cabinet surfaces, handles, trolleys & shelf wipe-down',
+        'Kitchen floor scrubbing, drain cleaning & oil stain removal',
+        'Window panes, exhaust fan & switchboards detailed cleaning',
+      ];
+    }
+    return [
+      'Countertop slab, stainless steel sink & tile backsplash degreasing',
+      'Exterior cabinet surfaces, trolleys & handles grease breakdown',
+      'Floor scrubbing and oil stain removal',
+      'Switchboards, exhaust fan & window pane wipe-down',
+    ];
+  }
+
+  // Bathroom Deep Cleaning
+  if (service?.slug === 'bathroom-deep-cleaning') {
+    const isMachine = variant?.name?.toLowerCase().includes('machine') || variant?.tier?.toLowerCase().includes('machine');
+    return [
+      isMachine
+        ? 'Mechanized single-disc machine scrubbing for floor tiles & grout'
+        : 'Intensive manual scrubbing with professional Taski descaling chemicals',
+      'Hard-water scale removal from wall tiles, shower glass, taps & faucets',
+      'WC toilet pot interior/exterior descaling, sanitization & stain removal',
+      'Washbasin, vanity mirror & chrome fittings streak-free polish',
+      'Drain cover clearance, exhaust dusting & odor elimination',
+    ];
+  }
+
+  // Sofa / Carpet Cleaning
+  if (service?.slug?.includes('sofa') || service?.slug?.includes('carpet')) {
+    return [
+      `Industrial shampoo extraction for ${variant?.name || 'upholstery'}`,
+      'Deep dry vacuuming to remove embedded dust mites, allergens, crumbs & pet hair',
+      'Specialized foam shampoo injection & fabric brush agitation',
+      'High-suction wet extraction to extract dirty water, stains & spills',
+      'Fabric refreshing, deodorization & quick-dry treatment',
+    ];
+  }
+
+  // Mini Services
+  if (service?.slug === 'mini-services') {
+    return [
+      `${variant?.name} performed by certified squad (~${variant?.duration || '20–30 min'})`,
+      `${variant?.specs || 'Targeted deep cleaning & degreasing'}`,
+      'Food-safe, non-hazardous & eco-friendly cleaning agents used',
+      'Detailed wipe-down, carbon/grime removal & chrome buffing',
+      'Surrounding surface protection and clean finish',
+    ];
+  }
+
+  // Default to service included
+  if (service?.included && service.included.length > 0) {
+    return service.included;
+  }
+
+  return [
+    `Professional cleaning service by verified experts (~${variant?.duration || 'standard duration'})`,
+    'All relevant surfaces dusted, scrubbed and sanitized',
+    'Eco-friendly, certified safe cleaning chemicals',
+    'Industrial tools & microfiber equipment used',
+  ];
+}
+
+function getVariantExclusions(service) {
+  if (service?.excluded && service.excluded.length > 0) {
+    return service.excluded;
+  }
+  return [
+    'Inside occupied personal wardrobes & locked drawers',
+    'Appliance interiors (fridge/oven available as optional add-on)',
+    'Paint removal, wall putty repair or civil structural repairs',
+  ];
+}
 
 export function ServiceDetailContent({ slug }) {
   const service = getServiceBySlug(slug);
@@ -19,6 +188,26 @@ export function ServiceDetailContent({ slug }) {
   const [selectedVariant, setSelectedVariant] = useState(
     hasVariants ? service.variants[0] : null
   );
+
+  const [modalVariant, setModalVariant] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isModalOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setIsModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isModalOpen]);
 
   if (!service) return null;
 
@@ -145,8 +334,12 @@ export function ServiceDetailContent({ slug }) {
                       <button
                         key={v.id}
                         type="button"
-                        onClick={() => setSelectedVariant(v)}
-                        className={`flex flex-col text-left p-3 rounded-xl border transition-all cursor-pointer ${
+                        onClick={() => {
+                          setSelectedVariant(v);
+                          setModalVariant(v);
+                          setIsModalOpen(true);
+                        }}
+                        className={`group flex flex-col text-left p-3 rounded-xl border transition-all cursor-pointer ${
                           isSelected
                             ? 'border-sky-500 bg-sky-50/90 ring-2 ring-sky-400/40 shadow-sm'
                             : 'border-slate-200/90 hover:border-sky-300 hover:bg-slate-50'
@@ -194,10 +387,16 @@ export function ServiceDetailContent({ slug }) {
                               {formatCurrency(v.price)}
                             </span>
                           </div>
-                          <span className="text-[10px] text-slate-500 font-semibold flex items-center gap-0.5">
-                            <Clock className="h-3 w-3 text-sky-500" />
-                            {v.duration}
-                          </span>
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-[10px] text-slate-500 font-semibold flex items-center gap-0.5">
+                              <Clock className="h-3 w-3 text-sky-500" />
+                              {v.duration}
+                            </span>
+                            <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-bold text-sky-700 bg-sky-100/70 group-hover:bg-sky-500 group-hover:text-white transition-colors">
+                              <Info className="h-2.5 w-2.5" />
+                              <span>Includes</span>
+                            </span>
+                          </div>
                         </div>
                       </button>
                     );
@@ -290,112 +489,7 @@ export function ServiceDetailContent({ slug }) {
           </div>
         </div>
 
-        {/* ======================================================== */}
-        {/* OFFICIAL CLIENT RATE CARD & AREA (SQ FT) TABLE */}
-        {/* ======================================================== */}
-        {hasVariants && (
-          <div className="mt-14 rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-8 shadow-sm">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-5 border-b border-slate-100">
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
-                  <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                    Official Rate Card & Area (Sq Ft) Chart
-                  </h2>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-500 mt-1 font-medium">
-                  Verified transparent pricing directly matching the official rate sheet.
-                </p>
-              </div>
-              {service.clientNote && (
-                <div className="self-start md:self-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 border border-amber-200 text-xs font-bold text-amber-900">
-                  <span>📝</span>
-                  <span>{service.clientNote}</span>
-                </div>
-              )}
-            </div>
 
-            <div className="mt-6 overflow-x-auto -mx-6 sm:mx-0">
-              <table className="w-full min-w-[620px] text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-slate-200 text-[11px] font-black uppercase tracking-wider text-slate-500 bg-slate-50/70">
-                    <th className="py-3 px-4">Package / BHK Option</th>
-                    <th className="py-3 px-4">Covered Area (Sq Ft)</th>
-                    <th className="py-3 px-4">Duration</th>
-                    <th className="py-3 px-4">MRP / Base</th>
-                    <th className="py-3 px-4">Discount</th>
-                    <th className="py-3 px-4">Rate (Final)</th>
-                    <th className="py-3 px-4 text-center">Action</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 text-xs sm:text-sm">
-                  {service.variants.map((v) => {
-                    const isSelected = selectedVariant?.id === v.id;
-                    return (
-                      <tr
-                        key={v.id}
-                        className={`transition-colors ${
-                          isSelected ? 'bg-sky-50/60 font-semibold' : 'hover:bg-slate-50/50'
-                        }`}
-                      >
-                        <td className="py-3 px-4">
-                          <div className="flex items-center gap-2">
-                            {isSelected && (
-                              <span className="h-2 w-2 rounded-full bg-sky-500 shrink-0" />
-                            )}
-                            <span className="font-bold text-slate-900">{v.name}</span>
-                          </div>
-                        </td>
-                        <td className="py-3 px-4">
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-amber-50 border border-amber-200/70 text-[11px] font-black text-amber-900">
-                            {v.sqft || '—'}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4 text-slate-500">
-                          {v.duration}
-                        </td>
-                        <td className="py-3 px-4 text-slate-400">
-                          {v.originalPrice && v.originalPrice > v.price ? (
-                            <span className="line-through">{formatCurrency(v.originalPrice)}</span>
-                          ) : (
-                            formatCurrency(v.price)
-                          )}
-                        </td>
-                        <td className="py-3 px-4">
-                          {v.discount ? (
-                            <span className="inline-block px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[11px] font-black">
-                              {v.discount}% OFF
-                            </span>
-                          ) : (
-                            <span className="text-slate-400">—</span>
-                          )}
-                        </td>
-                        <td className="py-3 px-4">
-                          <span className="text-sm sm:text-base font-black text-slate-900">
-                            {formatCurrency(v.price)}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4 text-center">
-                          <button
-                            type="button"
-                            onClick={() => setSelectedVariant(v)}
-                            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                              isSelected
-                                ? 'bg-sky-500 text-white shadow-xs'
-                                : 'bg-slate-100 hover:bg-sky-100 text-slate-700 hover:text-sky-700'
-                            }`}
-                          >
-                            {isSelected ? 'Selected ✓' : 'Select'}
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
 
         <div className="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div className="card-base p-6">
@@ -544,6 +638,183 @@ export function ServiceDetailContent({ slug }) {
           </button>
         </div>
       </div>
+
+      {/* ======================================================== */}
+      {/* VARIANT INCLUSIONS POPUP MODAL */}
+      {/* ======================================================== */}
+      {isModalOpen && modalVariant && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/70 backdrop-blur-sm animate-in fade-in duration-200"
+          onClick={() => setIsModalOpen(false)}
+        >
+          <div
+            className="relative w-full sm:max-w-xl max-h-[88vh] flex flex-col bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl border border-slate-100 overflow-hidden animate-in slide-in-from-bottom-6 sm:zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="relative p-5 sm:p-6 bg-gradient-to-r from-sky-50 via-sky-100/50 to-white border-b border-slate-100">
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(false)}
+                className="absolute top-4 right-4 h-9 w-9 rounded-full bg-white/90 hover:bg-slate-100 text-slate-500 hover:text-slate-800 flex items-center justify-center border border-slate-200 shadow-2xs transition-all"
+                aria-label="Close modal"
+              >
+                <X className="h-5 w-5" />
+              </button>
+
+              <div className="flex items-center gap-2 mb-1.5 pr-8">
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-sky-700 bg-sky-100/80 px-2.5 py-0.5 rounded-full">
+                  {service.name}
+                </span>
+                {modalVariant.tier && (
+                  <span className="text-[11px] font-black uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-200/60">
+                    {modalVariant.tier}
+                  </span>
+                )}
+              </div>
+
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight pr-8">
+                {modalVariant.name}
+              </h3>
+
+              {/* Price & Meta Badges */}
+              <div className="mt-3 flex flex-wrap items-center gap-2.5">
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-2xl font-black text-slate-900">
+                    {formatCurrency(modalVariant.price)}
+                  </span>
+                  {modalVariant.originalPrice && modalVariant.originalPrice > modalVariant.price && (
+                    <span className="text-xs text-slate-400 line-through font-semibold">
+                      {formatCurrency(modalVariant.originalPrice)}
+                    </span>
+                  )}
+                  {modalVariant.discount ? (
+                    <span className="rounded bg-emerald-100 text-emerald-800 text-[10px] font-black px-1.5 py-0.5">
+                      {modalVariant.discount}% OFF
+                    </span>
+                  ) : null}
+                </div>
+
+                <div className="flex items-center gap-1.5 ml-auto flex-wrap">
+                  {modalVariant.sqft && (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 border border-amber-200 text-xs font-black text-amber-900">
+                      <span>📐</span>
+                      <span>{modalVariant.sqft}</span>
+                    </span>
+                  )}
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white border border-slate-200 text-xs font-bold text-slate-700 shadow-2xs">
+                    <Clock className="h-3.5 w-3.5 text-sky-500" />
+                    <span>{modalVariant.duration}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Body (Scrollable) */}
+            <div className="p-5 sm:p-6 overflow-y-auto space-y-5">
+              {/* What's Included */}
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
+                    <CheckCircle2 className="h-4 w-4" />
+                  </div>
+                  <h4 className="text-sm font-black text-slate-900 uppercase tracking-wider">
+                    What&apos;s Included in {modalVariant.name}
+                  </h4>
+                </div>
+
+                <ul className="space-y-2.5">
+                  {getVariantInclusions(service, modalVariant).map((inc, i) => (
+                    <li
+                      key={i}
+                      className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 leading-relaxed bg-slate-50/70 p-2.5 rounded-xl border border-slate-100"
+                    >
+                      <Check className="h-4 w-4 text-emerald-600 flex-shrink-0 mt-0.5 stroke-[2.5]" />
+                      <span className="font-medium">{inc}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* What's Not Included */}
+              <div className="pt-2 border-t border-slate-100">
+                <div className="flex items-center gap-2 mb-2.5">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-orange-100 text-orange-600">
+                    <X className="h-3.5 w-3.5 stroke-[2.5]" />
+                  </div>
+                  <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    What&apos;s Not Included
+                  </h4>
+                </div>
+
+                <ul className="grid grid-cols-1 gap-1.5">
+                  {getVariantExclusions(service).map((exc, i) => (
+                    <li key={i} className="flex items-start gap-2 text-xs text-slate-500">
+                      <span className="h-1.5 w-1.5 rounded-full bg-orange-400 shrink-0 mt-1.5" />
+                      <span>{exc}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Trust Badges */}
+              <div className="pt-2 border-t border-slate-100 flex flex-wrap items-center gap-3 text-[11px] font-semibold text-slate-600">
+                <span className="flex items-center gap-1 text-emerald-700">
+                  <ShieldCheck className="h-3.5 w-3.5" /> 100% In-House Verified
+                </span>
+                <span className="text-slate-300">•</span>
+                <span className="flex items-center gap-1 text-sky-700">
+                  <Sparkles className="h-3.5 w-3.5" /> Safe Eco-Friendly Chemicals
+                </span>
+                <span className="text-slate-300">•</span>
+                <span className="text-slate-600">Zero Hidden Charges</span>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 sm:p-5 bg-slate-50 border-t border-slate-100 flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedVariant(modalVariant);
+                  setIsModalOpen(false);
+                }}
+                className="flex-1 py-3 px-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 font-bold text-sm transition-all"
+              >
+                Select Package
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedVariant(modalVariant);
+                  addToCart(
+                    {
+                      ...service,
+                      ...modalVariant,
+                      id: `${service.id}-${modalVariant.id}`,
+                      price: modalVariant.price,
+                      originalPrice: modalVariant.originalPrice,
+                      selectedVariant: modalVariant,
+                    },
+                    quantity,
+                    selectedAddOns
+                  );
+                  setIsModalOpen(false);
+                  setIsAdded(true);
+                  setTimeout(() => setIsAdded(false), 2000);
+                }}
+                className="flex-[1.4] py-3 px-4 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-extrabold text-sm shadow-md shadow-sky-500/25 transition-all flex items-center justify-center gap-2 active:scale-98"
+              >
+                <ShoppingCart className="h-4 w-4" />
+                <span>Add to Cart ({formatCurrency(modalVariant.price)})</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -11,6 +11,7 @@ import {
   Star,
   Zap,
   MessageCircle,
+  Building2,
 } from "lucide-react";
 import { business } from "@/config/business";
 
@@ -63,7 +64,7 @@ export function Hero() {
 
             {/* CTAs */}
             <div
-              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-2 animate-fade-up"
+              className="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-3.5 pt-2 animate-fade-up"
               style={{ animationDelay: "0.2s" }}
             >
               <Link
@@ -72,6 +73,14 @@ export function Hero() {
               >
                 <span>Book a Cleaning</span>
                 <ArrowRight className="h-4 w-4" />
+              </Link>
+
+              <Link
+                href="/corporate-cleaning"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-slate-900 bg-slate-900 px-6 py-3.5 text-sm font-bold text-white shadow-md shadow-slate-900/15 transition-all duration-300 hover:bg-slate-800 hover:border-slate-800 hover:-translate-y-0.5 active:translate-y-0"
+              >
+                <Building2 className="h-4 w-4 text-sky-400" />
+                <span>Corporate Cleaning</span>
               </Link>
 
               <a

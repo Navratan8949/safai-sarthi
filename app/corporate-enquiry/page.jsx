@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { MessageCircle, Copy, Check, ArrowLeft, AlertCircle } from 'lucide-react';
 import { SectionHeading } from '@/components/SectionHeading';
@@ -9,7 +9,7 @@ import { generateCorporateWhatsAppMessage, generateWhatsAppUrl } from '@/utils/w
 import { generateCorporateReference } from '@/utils/booking';
 import { business } from '@/config/business';
 
-const propertyTypes = ['Hotel', 'Restaurant', 'Office', 'Retail', 'Showroom', 'Society', 'Other'];
+const propertyTypes = ['Hotel', 'Restaurant', 'Gym & Fitness Center', 'Office', 'Retail', 'Showroom', 'Society', 'Other'];
 const serviceTypes = ['One-Time Deep Cleaning', 'Recurring Cleaning', 'Post-Construction Cleaning', 'Kitchen Cleaning', 'Upholstery Cleaning', 'Other'];
 const frequencies = ['One-Time', 'Daily', 'Weekly', 'Monthly', 'Custom'];
 
@@ -31,6 +31,21 @@ export default function CorporateEnquiryPage() {
     siteVisit: false,
     additionalReqs: '',
   });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const pt = params.get('propertyType');
+      if (pt) {
+        const match = propertyTypes.find(
+          (t) => t.toLowerCase().includes(pt.toLowerCase()) || pt.toLowerCase().includes(t.toLowerCase())
+        );
+        if (match) {
+          setFormData((prev) => ({ ...prev, propertyType: match }));
+        }
+      }
+    }
+  }, []);
 
   const [errors, setErrors] = useState({});
   const [confirmation, setConfirmation] = useState(null);

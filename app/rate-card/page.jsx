@@ -49,13 +49,13 @@ export default function RateCardPage() {
     {
       pageNumber: 5,
       title: "Balcony, Terrace, Sofa, Carpet & Chimney Services",
-      note: "Balcony (25/50/150 Sq Ft), Terrace (200/500/1000 Sq Ft), Sofa (3–12 Seater), Carpet (50–200 Sq Ft), Chimney (₹350)",
+      note: "Balcony (25/50/150 Sq Ft), Terrace (200/500/1000 Sq Ft), Sofa (3–12 Seater), Carpet (50–200 Sq Ft), Chimney (₹550)",
       servicesList: services.filter((s) => s.clientPage === 5),
     },
     {
       pageNumber: 6,
       title: "Appliances, Mini Services & Dining Combos",
-      note: "Fridge (Single/Double/Triple Door), Exhaust Fan (Express/Elite/Exclusive), Ceiling Fans, Dining Chairs & Sofa Combos",
+      note: "Fridge (Single ₹450 / Double ₹650 / Triple ₹850), Exhaust Fan, Mini Services (₹107 - ₹470), Dining Chairs & Sofa Combos",
       servicesList: services.filter((s) => s.clientPage === 6),
     },
   ];

@@ -100,7 +100,7 @@ export function ResidentialCorporate() {
                     Corporate & Commercial
                   </h3>
                   <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
-                    Heavy-duty facility sanitization for IT offices, retail showrooms, boutique hotels, restaurants, clinics, and residential societies.
+                    Heavy-duty facility sanitization for IT offices, gyms & fitness centers, retail showrooms, boutique hotels, restaurants, clinics, and residential societies.
                   </p>
                 </div>
 

@@ -13,6 +13,7 @@ import {
   Clock,
   FileText,
   Star,
+  Dumbbell,
 } from "lucide-react";
 import { SectionHeading } from "@/components/SectionHeading";
 import { CTASection } from "@/components/CTASection";
@@ -21,7 +22,7 @@ import { business } from "@/config/business";
 export const metadata = {
   title: "Corporate Cleaning Services in Jaipur | SafaiSaarthi",
   description:
-    "Professional cleaning solutions for offices, hotels, restaurants, retail stores, showrooms, and societies in Jaipur. Request a custom quote.",
+    "Professional cleaning solutions for offices, hotels, restaurants, gyms, retail stores, showrooms, and societies in Jaipur. Request a custom quote.",
 };
 
 export default function CorporateCleaningPage() {
@@ -39,6 +40,13 @@ export default function CorporateCleaningPage() {
       highlight: "Kitchen Degreasing",
       desc: "Dining areas, commercial kitchens, exhaust chimneys, and washrooms sanitized for FSSAI hygiene.",
       highlights: ["Heavy chimney & floor degreasing", "Food-safe non-toxic agents"],
+    },
+    {
+      icon: Dumbbell,
+      name: "Gyms & Fitness Centers",
+      highlight: "Hygiene & Sanitization",
+      desc: "Workout machines, free-weight areas, rubber flooring, locker rooms, showers, and steam areas deep cleaned and sanitized for germ-free fitness.",
+      highlights: ["Anti-microbial equipment wipe-down", "Locker room & shower descaling", "Rubber floor scrubbing & deodorization"],
     },
     {
       icon: Building,
@@ -72,11 +80,12 @@ export default function CorporateCleaningPage() {
 
   const services = [
     "One-Time Deep Cleaning",
-    "Recurring Cleaning",
+    "Recurring Cleaning & AMC",
     "Post-Construction Cleaning",
-    "Kitchen Cleaning",
-    "Upholstery Cleaning",
-    "Floor Care & Polishing",
+    "Gym & Fitness Center Sanitization",
+    "Commercial Kitchen Degreasing",
+    "Upholstery & Carpet Wash",
+    "Floor Scrubbing & Buffing",
   ];
 
   return (
@@ -106,7 +115,7 @@ export default function CorporateCleaningPage() {
               </h1>
 
               <p className="mt-5 text-base sm:text-lg text-navy-200 leading-relaxed max-w-xl">
-                Tell us about your property and cleaning requirements. From offices to hotels, we deliver reliable, high-standard commercial cleaning and flexible AMC contracts.
+                Tell us about your property and cleaning requirements. From offices and gyms to hotels and retail, we deliver reliable, high-standard commercial cleaning and flexible AMC contracts.
               </p>
 
               <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
