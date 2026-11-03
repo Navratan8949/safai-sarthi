@@ -87,6 +87,39 @@ export const galleryItems = [
     description:
       "Scientific non-acidic descaling agents removing years of chalky groundwater white salt deposits from glass partitions, tiles, and chrome taps without damaging grout.",
   },
+  {
+    id: "gallery-9",
+    title: "Kitchen Chimney & Blower Degreasing",
+    subtitle: "Heavy Grease & Carbon Sludge Removal",
+    category: "Residential Deep Clean",
+    image: "/images/before-after/chimney-cleaning.jpg",
+    tag: "Before & After",
+    location: "Vaishali Nagar, Jaipur",
+    description:
+      "Before and after result of intensive baffle filter, oil collector, and internal blower fan degreasing restoring original kitchen suction power.",
+  },
+  {
+    id: "gallery-10",
+    title: "Groundwater Mineral Scale Descaling",
+    subtitle: "Chrome Wall Mixer & Fixture Limescale Removal",
+    category: "Residential Deep Clean",
+    image: "/images/before-after/bathroom-tap-descaling.jpg",
+    tag: "Before & After",
+    location: "Malviya Nagar, Jaipur",
+    description:
+      "Restoration of heavy groundwater chalk and salt crust on bathroom wall mixer taps using non-corrosive chemical agents.",
+  },
+  {
+    id: "gallery-11",
+    title: "Refrigerator Deep Sanitization",
+    subtitle: "Freezer Frost & Anti-Bacterial Sanitization",
+    category: "Residential Deep Clean",
+    image: "/images/before-after/fridge-freezer-cleaning.jpg",
+    tag: "Before & After",
+    location: "Raja Park, Jaipur",
+    description:
+      "Deep appliance cleaning, stubborn food stain removal, and hygienic steam sanitization for refrigerator freezer and compartments.",
+  },
 ];
 
 export const galleryCategories = [

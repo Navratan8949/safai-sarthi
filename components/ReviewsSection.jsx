@@ -1,3 +1,6 @@
+"use client";
+
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import {
   CheckCircle2,
@@ -9,10 +12,45 @@ import {
   MapPin,
   Star,
   Quote,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { testimonials } from "@/data/testimonials";
 
 export function ReviewsSection() {
+  const scrollContainerRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScroll = () => {
+    if (!scrollContainerRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+    setCanScrollLeft(scrollLeft > 10);
+    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+  };
+
+  useEffect(() => {
+    checkScroll();
+    const el = scrollContainerRef.current;
+    if (el) {
+      el.addEventListener("scroll", checkScroll, { passive: true });
+      window.addEventListener("resize", checkScroll);
+      return () => {
+        el.removeEventListener("scroll", checkScroll);
+        window.removeEventListener("resize", checkScroll);
+      };
+    }
+  }, []);
+
+  const handleScroll = (direction) => {
+    if (!scrollContainerRef.current) return;
+    const scrollAmount = Math.min(scrollContainerRef.current.clientWidth * 0.8, 480);
+    scrollContainerRef.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
+
   const trustFeatures = [
     { icon: MapPin, title: "Instant Coverage Check" },
     { icon: FileText, title: "Itemized Bill Builder" },
@@ -22,22 +60,67 @@ export function ReviewsSection() {
 
   const results = [
     {
-      id: "villa",
-      title: "Complete Home Sanitization & Deep Clean",
-      description:
-        "Full villa deep scrub, machine floor buffing & eco-sanitization completed in 4 hours",
-      location: "Vaishali Nagar, Jaipur",
-      scope: "Full Villa Deep Clean",
-      image: "/images/before-after-clean-house.png",
-    },
-    {
-      id: "bathroom",
+      id: "bathroom-tiles",
       title: "Jaipur Groundwater Salt Removal",
       description:
         "Acid-free rotary brush treatment preserving grout & restoring mirror-like tile shine",
       location: "Mansarovar, Jaipur",
       scope: "Glass & Tile Descale",
       image: "/images/before-after-clean-bathroom.png",
+    },
+    {
+      id: "chimney-degreasing",
+      title: "Kitchen Chimney & Blower Degreasing",
+      description:
+        "Heavy oil sludge, baffle filter & internal motor degreased with food-grade carbon remover",
+      location: "Vaishali Nagar, Jaipur",
+      scope: "Kitchen Chimney Deep Clean",
+      image: "/images/before-after/chimney-cleaning.jpg",
+    },
+    {
+      id: "tap-descaling",
+      title: "Wall Mixer Hard-Water Scale Descaling",
+      description:
+        "Severe groundwater calcium & white salt buildup dissolved without corroding chrome plating",
+      location: "Malviya Nagar, Jaipur",
+      scope: "Bathroom Fixtures Restored",
+      image: "/images/before-after/bathroom-tap-descaling.jpg",
+    },
+    {
+      id: "fridge-freezer",
+      title: "Refrigerator Freezer Deep Sanitization",
+      description:
+        "Complete frost thaw, stubborn food stains & bacterial odor eliminated with deep steam sanitization",
+      location: "Raja Park, Jaipur",
+      scope: "Appliance Deep Hygiene",
+      image: "/images/before-after/fridge-freezer-cleaning.jpg",
+    },
+    {
+      id: "fridge-top",
+      title: "Appliance High-Surface Dust & Grease",
+      description:
+        "Years of accumulated kitchen oil vapor & dust crust dissolved back to original factory finish",
+      location: "C-Scheme, Jaipur",
+      scope: "Kitchen Appliance Clean",
+      image: "/images/before-after/fridge-top-cleaning.jpg",
+    },
+    {
+      id: "tap-salt",
+      title: "Bathroom Tap Limescale Restoration",
+      description:
+        "Dense alkaline salt crust removed from nozzle and body, restoring water pressure & shine",
+      location: "Jagatpura, Jaipur",
+      scope: "Tap & Spout Descaling",
+      image: "/images/before-after/tap-salt-removal.jpg",
+    },
+    {
+      id: "villa-clean",
+      title: "Complete Home Sanitization & Deep Clean",
+      description:
+        "Full villa deep scrub, machine floor buffing & eco-sanitization completed in 4 hours",
+      location: "Patrakar Colony, Jaipur",
+      scope: "Full Villa Deep Clean",
+      image: "/images/before-after-clean-house.png",
     },
   ];
 
@@ -157,7 +240,7 @@ export function ReviewsSection() {
         </div>
 
         {/* --- BEFORE / AFTER TRANSFORMATION SECTION --- */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-12">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
           <div>
             <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-sky-600 mb-2">
               <Wrench className="h-3.5 w-3.5" />
@@ -166,19 +249,52 @@ export function ReviewsSection() {
             <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight">
               Real Transformation in Jaipur Homes
             </h3>
+            <p className="mt-1.5 text-xs sm:text-sm text-slate-500 max-w-xl font-medium leading-relaxed">
+              Authentic before-and-after snapshots shot by our field supervisors upon job sign-off across Jaipur localities.
+            </p>
           </div>
-          <p className="text-sm text-slate-500 max-w-md font-medium leading-relaxed lg:text-right">
-            Authentic before-and-after snapshots shot by our field supervisors
-            upon job sign-off across Jaipur localities.
-          </p>
+
+          {/* Desktop & Tablet Navigation Controls */}
+          <div className="flex items-center gap-2 self-start sm:self-auto flex-shrink-0">
+            <button
+              type="button"
+              onClick={() => handleScroll("left")}
+              disabled={!canScrollLeft}
+              aria-label="Previous transformation"
+              className={`flex h-10 w-10 items-center justify-center rounded-full border transition-all ${
+                canScrollLeft
+                  ? "border-slate-300 bg-white text-slate-800 shadow-xs hover:bg-sky-50 hover:border-sky-300 hover:text-sky-600 cursor-pointer"
+                  : "border-slate-200 bg-slate-100 text-slate-300 cursor-not-allowed opacity-60"
+              }`}
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => handleScroll("right")}
+              disabled={!canScrollRight}
+              aria-label="Next transformation"
+              className={`flex h-10 w-10 items-center justify-center rounded-full border transition-all ${
+                canScrollRight
+                  ? "border-slate-300 bg-white text-slate-800 shadow-xs hover:bg-sky-50 hover:border-sky-300 hover:text-sky-600 cursor-pointer"
+                  : "border-slate-200 bg-slate-100 text-slate-300 cursor-not-allowed opacity-60"
+              }`}
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
         </div>
 
-        {/* Before / After Transformation Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+        {/* Horizontal Scrollable Container */}
+        <div
+          ref={scrollContainerRef}
+          className="flex gap-5 sm:gap-6 overflow-x-auto pb-4 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0 scroll-smooth snap-x snap-mandatory"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
           {results.map((item) => (
             <div
               key={item.id}
-              className="group overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-md shadow-slate-900/5 transition-all duration-300 hover:shadow-xl hover:border-sky-300 flex flex-col"
+              className="group overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-md shadow-slate-900/5 transition-all duration-300 hover:shadow-xl hover:border-sky-300 flex flex-col w-[85vw] sm:w-[440px] lg:w-[480px] flex-shrink-0 snap-start"
             >
               {/* Before/After Split Image with Location Badge */}
               <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
@@ -186,52 +302,70 @@ export function ReviewsSection() {
                   src={item.image}
                   alt={item.title}
                   fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  sizes="(max-width: 768px) 85vw, 480px"
                   className="object-cover transition-transform duration-500 group-hover:scale-102"
                 />
 
                 {/* Floating Location Overlay Badge */}
-                <div className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 rounded-full bg-slate-900/90 px-3.5 py-1.5 text-xs font-bold text-white shadow-lg border border-white/15">
-                  <MapPin className="h-3.5 w-3.5 text-sky-400 flex-shrink-0" />
+                <div className="absolute top-3.5 left-3.5 z-10 inline-flex items-center gap-1.5 rounded-full bg-slate-900/90 px-3 py-1 text-[11px] font-bold text-white shadow-lg border border-white/15 backdrop-blur-xs">
+                  <MapPin className="h-3 w-3 text-sky-400 flex-shrink-0" />
                   <span>{item.location}</span>
                 </div>
 
                 {/* Verified Job Badge */}
-                <div className="absolute top-4 right-4 z-10 inline-flex items-center gap-1 rounded-full bg-emerald-600 px-3 py-1.5 text-[11px] font-bold text-white shadow-lg">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-white" />
+                <div className="absolute top-3.5 right-3.5 z-10 inline-flex items-center gap-1 rounded-full bg-emerald-600 px-2.5 py-1 text-[10px] font-bold text-white shadow-lg">
+                  <CheckCircle2 className="h-3 w-3 text-white" />
                   <span>Verified Job</span>
                 </div>
               </div>
 
               {/* Card Meta Content */}
-              <div className="p-6 sm:p-7 flex items-start justify-between gap-4">
-                <div className="flex-1">
+              <div className="p-5 sm:p-6 flex items-start justify-between gap-3">
+                <div className="flex-1 min-w-0">
                   {/* Location & Scope Metadata Tag */}
-                  <div className="flex items-center gap-2 text-xs font-bold text-sky-600 mb-2">
-                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-sky-50 px-2.5 py-1 text-sky-700 font-bold border border-sky-100">
-                      <MapPin className="h-3.5 w-3.5 text-sky-500 flex-shrink-0" />
+                  <div className="flex items-center gap-2 text-xs font-bold text-sky-600 mb-1.5">
+                    <span className="inline-flex items-center gap-1 rounded-md bg-sky-50 px-2 py-0.5 text-sky-700 font-bold border border-sky-100 text-[11px]">
+                      <MapPin className="h-3 w-3 text-sky-500 flex-shrink-0" />
                       <span>{item.location}</span>
                     </span>
                     <span className="text-slate-300">•</span>
-                    <span className="text-slate-500 font-medium">
+                    <span className="text-slate-500 font-medium text-[11px] truncate">
                       {item.scope}
                     </span>
                   </div>
 
-                  <h4 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
+                  <h4 className="text-base sm:text-lg font-black text-slate-900 tracking-tight leading-snug">
                     {item.title}
                   </h4>
-                  <p className="mt-1.5 text-xs sm:text-sm text-slate-500 font-medium leading-relaxed">
+                  <p className="mt-1 text-xs text-slate-500 font-medium leading-relaxed line-clamp-2">
                     {item.description}
                   </p>
                 </div>
 
                 <div className="flex h-7 w-7 items-center justify-center rounded-full text-sky-600 flex-shrink-0 mt-0.5">
-                  <CheckCircle2 className="h-6 w-6 text-sky-500" />
+                  <CheckCircle2 className="h-5 w-5 text-sky-500" />
                 </div>
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Scroll helper strip & status */}
+        <div className="flex items-center justify-between mt-3 text-xs text-slate-400 font-medium">
+          <span className="inline-flex items-center gap-1 text-slate-500 sm:hidden">
+            👈 Swipe horizontally to view all transformations ({results.length})
+          </span>
+          <span className="hidden sm:inline-block text-slate-500">
+            Showing {results.length} verified before &amp; after transformations in Jaipur
+          </span>
+          <div className="flex items-center gap-1.5 ml-auto">
+            {results.map((item, idx) => (
+              <span
+                key={item.id}
+                className="h-1.5 w-1.5 rounded-full bg-slate-300"
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
